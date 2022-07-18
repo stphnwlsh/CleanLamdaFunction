@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Movies;
+namespace CleanLambdaFunction.Application.Movies;
 
 using System.Threading.Tasks;
 using Entities;

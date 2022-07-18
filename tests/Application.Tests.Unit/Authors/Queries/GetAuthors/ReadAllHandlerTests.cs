@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Tests.Unit.Authors.Queries.GetAuthors;
+namespace CleanLambdaFunction.Application.Tests.Unit.Authors.Queries.GetAuthors;
 
 using System.Threading;
 using System.Threading.Tasks;

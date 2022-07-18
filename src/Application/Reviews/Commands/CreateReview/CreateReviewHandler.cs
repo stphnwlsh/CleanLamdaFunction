@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Reviews.Commands.CreateReview;
+namespace CleanLambdaFunction.Application.Reviews.Commands.CreateReview;
 
 using System.Threading;
 using System.Threading.Tasks;

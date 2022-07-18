@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Tests.Unit.Authors.Queries.GetAuthorById;
+namespace CleanLambdaFunction.Application.Tests.Unit.Authors.Queries.GetAuthorById;
 
 using Application.Authors.Queries.GetAuthorById;
 using FluentValidation.TestHelper;

@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Common.Enums;
+namespace CleanLambdaFunction.Application.Common.Enums;
 
 public enum EntityType
 {

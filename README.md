@@ -1,8 +1,8 @@
 # Clean Minimal API
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/stphnwlsh/CleanMinimalApi/Build%20Pipeline?label=Build%20Pipeline&logo=github&logoColor=white&style=for-the-badge)](https://github.com/stphnwlsh/CleanMinimalApi/actions/workflows/build-pipeline.yml)
-[![Codecov](https://img.shields.io/codecov/c/github/stphnwlsh/CleanMinimalApi?label=Code%20Coverage&logo=codecov&logoColor=white&style=for-the-badge)](https://codecov.io/gh/stphnwlsh/CleanMinimalApi)
-![Nuget](https://img.shields.io/nuget/v/CleanMinimalApi.Template?label=nuget%20template&logo=nuget&logoColor=white&style=for-the-badge)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/stphnwlsh/CleanLambdaFunction/Build%20Pipeline?label=Build%20Pipeline&logo=github&logoColor=white&style=for-the-badge)](https://github.com/stphnwlsh/CleanLambdaFunction/actions/workflows/build-pipeline.yml)
+[![Codecov](https://img.shields.io/codecov/c/github/stphnwlsh/CleanLambdaFunction?label=Code%20Coverage&logo=codecov&logoColor=white&style=for-the-badge)](https://codecov.io/gh/stphnwlsh/CleanLambdaFunction)
+![Nuget](https://img.shields.io/nuget/v/CleanLambdaFunction.Template?label=nuget%20template&logo=nuget&logoColor=white&style=for-the-badge)
 
 This is a template API using a streamlined version of [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) alongside .NET 6's [Minimal APIs](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0).
 
@@ -15,13 +15,13 @@ This solution in built on the [.NET 6 SDK](https://dotnet.microsoft.com/download
 This is a template and you can install it using the [dotnet new cli](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new).  To install the lastest version of the template run the following command.
 
 ``` bash
-dotnet new --install CleanMinimalApi.Template
+dotnet new --install CleanLambdaFunction.Template
 ```
 
 To create a new solution using this template run the following command
 
 ```bash
-dotnet new cleanminimalapi --name {YOUR_SOLUTION_NAMESPACE} --au "{YOU_AUTHORS_NAME}"
+dotnet new cleanlambdafunction --name {YOUR_SOLUTION_NAMESPACE} --au "{YOU_AUTHORS_NAME}"
 ```
 
 ## Docker
@@ -29,13 +29,13 @@ dotnet new cleanminimalapi --name {YOUR_SOLUTION_NAMESPACE} --au "{YOU_AUTHORS_N
 There's a dockerfile included in the build folder and serves the purpose of restoring, building, testing, publishing and then creating a runtime image of the API.  Works on my machine.....you can add a version prefix and suffix to version the service in the assembly.  The Dockerfile does have stages so you can just run the tests or publish the solution depending on your needs.  Review the `build-pipeline.yml` in the github folder for more detailed usage.
 
 ``` bash
-docker build . -t cleanminimalapi:latest --build-arg VERSION_PREFIX {VERSION_NUMBER} -- build-arg VERSION_SUFFIX {PRERELEASE_NAME}
+docker build . -t cleanlambdafunction:latest --build-arg VERSION_PREFIX {VERSION_NUMBER} -- build-arg VERSION_SUFFIX {PRERELEASE_NAME}
 ```
 
 The Github Action does publish an image of this API and you check it out for yourself by runnning this command in docker.
 
 ``` bash
-docker pull stphnwlsh/cleanminimalapi
+docker pull stphnwlsh/cleanlambdafunction
 ```
 
 ## Architecture
@@ -79,3 +79,15 @@ This sample would not have been possible without gaining inspiration from the fo
 If you like this, or want to checkout my other work, please connect with me on [LinkedIn](https://www.linkedin.com/in/stphnwlsh), [Twitter](https://twitter.com/stphnwlsh) or [GitHub](https://github.com/stphnwlsh), and consider supporting me at [Buy Me a Coffee].
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-1.svg)](https://www.buymeacoffee.com/stphnwlsh)
+
+
+
+
+
+docker build . --target run --tag dotnet-lambda-test --build-arg VERSION_PREFIX=1.1.1.1 --build-arg VERSION_SUFFIX=lambda
+docker run -p 9000:8080 dotnet-lambda-test:latest
+curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '"firstName"'
+
+
+
+https://coderjony.com/blogs/serilog-in-aws-lambda-using-net-core/

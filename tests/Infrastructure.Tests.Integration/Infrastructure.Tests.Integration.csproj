@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>CleanMinimalApi.$(AssemblyName)</RootNamespace>
+    <RootNamespace>CleanLambdaFunction.$(AssemblyName)</RootNamespace>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>

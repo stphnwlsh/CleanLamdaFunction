@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Authors;
+namespace CleanLambdaFunction.Application.Authors;
 
 using System.Threading.Tasks;
 using Entities;

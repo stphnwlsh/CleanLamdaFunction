@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Movies.Entities;
+namespace CleanLambdaFunction.Application.Movies.Entities;
 
 using Application.Common.Entities;
 using Application.Reviews.Entities;

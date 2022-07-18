@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Infrastructure.Tests.Integration.Databases.MovieReviews;
+namespace CleanLambdaFunction.Infrastructure.Tests.Integration.Databases.MovieReviews;
 
 using Application.Reviews.Commands.CreateReview;
 using Application.Reviews.Commands.UpdateReview;

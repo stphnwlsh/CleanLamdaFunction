@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Tests.Unit.Movies.Queries.GetMovieById;
+namespace CleanLambdaFunction.Application.Tests.Unit.Movies.Queries.GetMovieById;
 
 using System.Threading;
 using System.Threading.Tasks;

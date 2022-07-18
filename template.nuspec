@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package >
   <metadata>
-    <id>CleanMinimalApi.Template</id>
+    <id>CleanLambdaFunction.Template</id>
     <version>1.0.0</version>
     <authors>Stephen Walsh</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <projectUrl>https://github.com/stphnwlsh/CleanMinimalApi</projectUrl>
-    <repository type="git" url="https://github.com/stphnwlsh/CleanMinimalApi" branch="main" />
-    <description>A template for an API using a streamlined verison of Clean Architecture and .NET Minimal APIs.</description>
+    <projectUrl>https://github.com/stphnwlsh/CleanLambdaFunction</projectUrl>
+    <repository type="git" url="https://github.com/stphnwlsh/CleanLambdaFunction" branch="main" />
+    <description>A template for an API using a streamlined verison of Clean Architecture and .NET Lambda Functions.</description>
     <copyright>$copyright$</copyright>
     <tags>dotnet api csharp template clean clean-architecture minimal-api minimal</tags>
     <icon>images\icon.png</icon>

@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Infrastructure.Databases.MoviesReviews;
+namespace CleanLambdaFunction.Infrastructure.Databases.MoviesReviews;
 
 using Application.Authors;
 using Application.Common.Enums;

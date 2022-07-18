@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Versions.Entities;
+namespace CleanLambdaFunction.Application.Versions.Entities;
 
 public class Version
 {

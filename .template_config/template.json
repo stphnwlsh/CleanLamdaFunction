@@ -4,20 +4,20 @@
   "classifications": [
     "Clean Architecture",
     "Clean",
-    "Minimal API",
+    "Lambda Function",
     "Minimal",
     "API",
     "Dotnet",
     "Docker"
   ],
-  "identity": "CleanMinimalApi.Template",
-  "name": "Clean Minimal API Template",
-  "shortName": "cleanminimalapi",
+  "identity": "CleanLambdaFunction.Template",
+  "name": "Clean Lambda Function Template",
+  "shortName": "cleanlambdafunction",
   "tags": {
     "language": "C#",
     "type": "project"
   },
-  "sourceName": "CleanMinimalApi",
+  "sourceName": "CleanLambdaFunction",
   "preferNameDirectory": true,
   "symbols": {
     "author": {

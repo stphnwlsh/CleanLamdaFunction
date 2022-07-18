@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Reviews.Queries.GetReviews;
+namespace CleanLambdaFunction.Application.Reviews.Queries.GetReviews;
 
 using Entities;
 using MediatR;

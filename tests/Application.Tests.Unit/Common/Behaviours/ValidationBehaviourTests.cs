@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Tests.Unit.Common.Behaviours;
+namespace CleanLambdaFunction.Application.Tests.Unit.Common.Behaviours;
 
 using System.Collections.Generic;
 using System.Linq;

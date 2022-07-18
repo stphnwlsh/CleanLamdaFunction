@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Tests.Unit.Reviews.Queries.GetReviewById;
+namespace CleanLambdaFunction.Application.Tests.Unit.Reviews.Queries.GetReviewById;
 
 using Application.Reviews.Queries.GetReviewById;
 using FluentValidation.TestHelper;

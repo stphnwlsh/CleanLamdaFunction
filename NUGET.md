@@ -1,19 +1,19 @@
-# Clean Minimal API
+# Clean Lambda Function
 
-This is a template API using a streamlined version of [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) alongside .NET 6's [Minimal APIs](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0).  
+This is a template API using a streamlined version of [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) alongside .NET 6's [Lambda Functions](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0).  
 
 ## Installation
 
 This is a template and you can install it using the [dotnet new cli](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new).  To install the lastest version of the template run the following command.
 
 ``` bash
-dotnet new --install CleanMinimalApi.Template
+dotnet new --install CleanLambdaFunction.Template
 ```
 
 To create a new solution using this template run the following command
 
 ``` bash
-dotnet new cleanminimalapi --name {YOUR_SOLUTION_NAMESPACE} --au "{YOU_AUTHORS_NAME}"
+dotnet new cleanlambdafunction --name {YOUR_SOLUTION_NAMESPACE} --au "{YOU_AUTHORS_NAME}"
 ```
 
 ## Connect and Support

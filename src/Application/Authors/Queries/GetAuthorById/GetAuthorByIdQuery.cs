@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Authors.Queries.GetAuthorById;
+namespace CleanLambdaFunction.Application.Authors.Queries.GetAuthorById;
 
 using System.ComponentModel.DataAnnotations;
 using Entities;

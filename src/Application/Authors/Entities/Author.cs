@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Authors.Entities;
+namespace CleanLambdaFunction.Application.Authors.Entities;
 
 using Application.Common.Entities;
 using Application.Reviews.Entities;

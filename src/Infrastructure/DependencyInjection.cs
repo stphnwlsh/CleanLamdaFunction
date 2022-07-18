@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Infrastructure;
+namespace CleanLambdaFunction.Infrastructure;
 
 using System.Diagnostics.CodeAnalysis;
 using Application.Authors;
@@ -14,7 +14,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        _ = services.AddEntityFrameworkInMemoryDatabase();
+        //_ = services.AddEntityFrameworkInMemoryDatabase();
         _ = services.AddDbContext<MovieReviewsDbContext>(options => options.UseInMemoryDatabase($"Movies-{Guid.NewGuid()}"), ServiceLifetime.Singleton);
 
         _ = services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Infrastructure.Tests.Integration.Databases.MovieReviews.Extensions;
+namespace CleanLambdaFunction.Infrastructure.Tests.Integration.Databases.MovieReviews.Extensions;
 
 using System;
 using Infrastructure.Databases.MoviesReviews;

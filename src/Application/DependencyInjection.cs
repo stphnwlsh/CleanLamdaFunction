@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application;
+namespace CleanLambdaFunction.Application;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;

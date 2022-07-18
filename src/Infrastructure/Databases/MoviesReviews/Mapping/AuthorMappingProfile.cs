@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Infrastructure.Databases.MoviesReviews.Mapping;
+namespace CleanLambdaFunction.Infrastructure.Databases.MoviesReviews.Mapping;
 
 using AutoMapper;
 using Application = Application.Authors.Entities;

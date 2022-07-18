@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Common.Exceptions;
+namespace CleanLambdaFunction.Application.Common.Exceptions;
 
 using System;
 using System.Diagnostics.CodeAnalysis;

@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Authors.Queries.GetAuthors;
+namespace CleanLambdaFunction.Application.Authors.Queries.GetAuthors;
 
 using Entities;
 using MediatR;

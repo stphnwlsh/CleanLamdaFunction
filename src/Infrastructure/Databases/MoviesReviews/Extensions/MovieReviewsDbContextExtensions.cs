@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Infrastructure.Databases.MoviesReviews.Extensions;
+namespace CleanLambdaFunction.Infrastructure.Databases.MoviesReviews.Extensions;
 
 using System;
 using Bogus;

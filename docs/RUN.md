@@ -1,4 +1,4 @@
-# Clean Minimal API
+# Clean Lambda Function
 
 ## How to Run Project
 

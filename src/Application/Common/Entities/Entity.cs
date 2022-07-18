@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Common.Entities;
+namespace CleanLambdaFunction.Application.Common.Entities;
 
 public abstract record Entity
 {

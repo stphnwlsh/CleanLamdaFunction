@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Movies.Queries.GetMovies;
+namespace CleanLambdaFunction.Application.Movies.Queries.GetMovies;
 
 using System.Threading;
 using System.Threading.Tasks;

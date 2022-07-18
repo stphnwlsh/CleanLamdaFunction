@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Movies.Queries.GetMovieById;
+namespace CleanLambdaFunction.Application.Movies.Queries.GetMovieById;
 
 using FluentValidation;
 

@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Reviews.Queries.GetReviews;
+namespace CleanLambdaFunction.Application.Reviews.Queries.GetReviews;
 
 using System.Threading;
 using System.Threading.Tasks;

@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Tests.Unit.Reviews.Commands.DeleteReview;
+namespace CleanLambdaFunction.Application.Tests.Unit.Reviews.Commands.DeleteReview;
 
 using System.Threading;
 using System.Threading.Tasks;

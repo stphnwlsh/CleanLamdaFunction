@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Presentation.Tests.Integration.Extensions;
+namespace CleanLambdaFunction.Presentation.Tests.Integration.Extensions;
 
 using System.Text.Json;
 using System.Text.Json.Serialization;

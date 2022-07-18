@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Reviews.Commands.UpdateReview;
+namespace CleanLambdaFunction.Application.Reviews.Commands.UpdateReview;
 
 using FluentValidation;
 

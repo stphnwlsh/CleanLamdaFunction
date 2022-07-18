@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Infrastructure.Tests.Integration.Databases.MovieReviews;
+namespace CleanLambdaFunction.Infrastructure.Tests.Integration.Databases.MovieReviews;
 
 using Infrastructure.Databases.MoviesReviews.Models;
 using Microsoft.EntityFrameworkCore;

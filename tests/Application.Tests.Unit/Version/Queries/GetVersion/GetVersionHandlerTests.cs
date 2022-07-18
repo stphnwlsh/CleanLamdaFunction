@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Application.Tests.Unit.Version.Queries.GetVersion;
+namespace CleanLambdaFunction.Application.Tests.Unit.Version.Queries.GetVersion;
 
 using System.Threading;
 using System.Threading.Tasks;

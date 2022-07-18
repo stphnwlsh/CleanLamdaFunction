@@ -11,6 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		NuGet.config = NuGet.config
 		README.md = README.md
+		NUGET.md = NUGET.md
+		LICENSE.md = LICENSE.md
+		icon.png = icon.png
+		global.json = global.json
+		Dockerfile = Dockerfile
+		docker-compose.yml = docker-compose.yml
+		template.nuspec = template.nuspec
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F76F0E9E-98D3-4C66-8FDD-181E8C823DDA}"

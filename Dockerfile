@@ -2,8 +2,9 @@
 ARG BASE_IMAGE_REPO=mcr.microsoft.com
 ARG BASE_IMAGE_BUILD=dotnet/sdk
 ARG BASE_IMAGE_BUILD_TAG=6.0-alpine
-ARG BASE_IMAGE_RUNTIME=dotnet/aspnet
-ARG BASE_IMAGE_RUNTIME_TAG=6.0-alpine
+ARG BASE_IMAGE_RUNTIME_REPO=public.ecr.aws
+ARG BASE_IMAGE_RUNTIME=lambda/dotnet
+ARG BASE_IMAGE_RUNTIME_TAG=6
 
 # Setup Build Image
 FROM ${BASE_IMAGE_REPO}/${BASE_IMAGE_BUILD}:${BASE_IMAGE_BUILD_TAG} AS build
@@ -47,11 +48,10 @@ COPY --from=test /sln/tests/results/*.xml .
 FROM build AS publish
 ARG VERSION_PREFIX
 ARG VERSION_SUFFIX
-RUN dotnet publish ./src/**/Presentation.csproj --no-restore -c Release -v quiet -o app -p:VersionPrefix=${VERSION_PREFIX} -p:VersionSuffix=${VERSION_SUFFIX}
+RUN dotnet publish ./src/**/Presentation.csproj --no-build -c Release -v quiet -o app -p:VersionPrefix=${VERSION_PREFIX} -p:VersionSuffix=${VERSION_SUFFIX} --no-self-contained
 
 # Runtime Image
-FROM ${BASE_IMAGE_REPO}/${BASE_IMAGE_RUNTIME}:${BASE_IMAGE_RUNTIME_TAG} AS run
-WORKDIR /
-EXPOSE 80
+FROM ${BASE_IMAGE_RUNTIME_REPO}/${BASE_IMAGE_RUNTIME}:${BASE_IMAGE_RUNTIME_TAG} AS run
+WORKDIR /var/task
 COPY --from=publish /sln/app .
-ENTRYPOINT ["dotnet", "Presentation.dll"]
+CMD [ "Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::Handle" ]

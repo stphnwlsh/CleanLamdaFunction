@@ -1,4 +1,4 @@
-namespace CleanMinimalApi.Infrastructure.Databases.MoviesReviews.Models;
+namespace CleanLambdaFunction.Infrastructure.Databases.MoviesReviews.Models;
 
 using System.ComponentModel.DataAnnotations.Schema;
 
