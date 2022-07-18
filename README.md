@@ -1,10 +1,10 @@
-# Clean Minimal API
+# Clean Lambda Function
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/stphnwlsh/CleanLambdaFunction/Build%20Pipeline?label=Build%20Pipeline&logo=github&logoColor=white&style=for-the-badge)](https://github.com/stphnwlsh/CleanLambdaFunction/actions/workflows/build-pipeline.yml)
 [![Codecov](https://img.shields.io/codecov/c/github/stphnwlsh/CleanLambdaFunction?label=Code%20Coverage&logo=codecov&logoColor=white&style=for-the-badge)](https://codecov.io/gh/stphnwlsh/CleanLambdaFunction)
-![Nuget](https://img.shields.io/nuget/v/CleanLambdaFunction.Template?label=nuget%20template&logo=nuget&logoColor=white&style=for-the-badge)
+<!-- ![Nuget](https://img.shields.io/nuget/v/CleanLambdaFunction.Template?label=nuget%20template&logo=nuget&logoColor=white&style=for-the-badge) -->
 
-This is a template API using a streamlined version of [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) alongside .NET 6's [Minimal APIs](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0).
+This is a template API using a streamlined version of [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) alongside AWS's [Lambda Functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-csharp.html) and [.NET 6](https://docs.microsoft.com/en-us/dotnet/core/whats-new/dotnet-6)
 
 ## Prerequisites
 
@@ -60,19 +60,16 @@ There are plenty of handy implementations of features throughout this solution, 
 
 - Logging using [Serilog](https://github.com/serilog/serilog)
 - Mediator Pattern using [Mediatr](https://github.com/jbogard/MediatR)
-- Validation using [FluentValidation](https://github.com/FluentValidation/FluentValidation)
 - Testing using [Shouldly](https://github.com/shouldly/shouldly) and [NSubstitute](https://github.com/nsubstitute/NSubstitute)
-- OpenApi using [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
 - Object Mapping using [AutoMapper](https://github.com/AutoMapper/AutoMapper)
 
 ## Resources
 
 This sample would not have been possible without gaining inspiration from the following resources.  If you are on your own learning adventure please read the following blogs and documentation.
 
-- [David Fowler - Minimal APIs at a glance](https://gist.github.com/davidfowl/ff1addd02d239d2d26f4648a06158727)
-- [Damian Edwards - Minimal API Playground](https://github.com/DamianEdwards/MinimalApiPlayground)
-- [Scott Hanselman - Minimal APIs in .NET 6 but where are the Unit Tests?](https://www.hanselman.com/blog/minimal-apis-in-net-6-but-where-are-the-unit-tests)
-- [Andrew Lock - Reducing log verbosity with Serilog RequestLogging](https://andrewlock.net/using-serilog-aspnetcore-in-asp-net-core-3-reducing-log-verbosity/)
+- [Coder Jony - Serilog in AWS Lambda using .NET Core](https://coderjony.com/blogs/serilog-in-aws-lambda-using-net-core/)
+- [Testing Lambda container images locally](https://docs.aws.amazon.com/lambda/latest/dg/images-test.html)
+- [Hoang Dinh - How to Deploy A “Huge” Serverless Project To AWS?](https://aws.plainenglish.io/how-to-deploy-a-huge-serverless-project-to-aws-image-classification-api-with-tensorflowjs-367a34dfe155)
 
 ## Connect and Support
 
@@ -80,14 +77,8 @@ If you like this, or want to checkout my other work, please connect with me on [
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-1.svg)](https://www.buymeacoffee.com/stphnwlsh)
 
-
-
-
-
+``` bash
 docker build . --target run --tag dotnet-lambda-test --build-arg VERSION_PREFIX=1.1.1.1 --build-arg VERSION_SUFFIX=lambda
 docker run -p 9000:8080 dotnet-lambda-test:latest
 curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '"firstName"'
-
-
-
-https://coderjony.com/blogs/serilog-in-aws-lambda-using-net-core/
+```

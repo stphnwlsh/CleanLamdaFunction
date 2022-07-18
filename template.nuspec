@@ -9,7 +9,7 @@
     <repository type="git" url="https://github.com/stphnwlsh/CleanLambdaFunction" branch="main" />
     <description>A template for an API using a streamlined verison of Clean Architecture and .NET Lambda Functions.</description>
     <copyright>$copyright$</copyright>
-    <tags>dotnet api csharp template clean clean-architecture minimal-api minimal</tags>
+    <tags>dotnet api csharp template clean clean-architecture lambda-function lambda function</tags>
     <icon>images\icon.png</icon>
     <license type="file">docs\LICENSE.md</license>
     <readme>docs\NUGET.md</readme>

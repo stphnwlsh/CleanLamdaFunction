@@ -1,6 +1,6 @@
 # Clean Lambda Function
 
-This is a template API using a streamlined version of [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) alongside .NET 6's [Lambda Functions](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0).  
+This is a template API using a streamlined version of [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) alongside AWS's [Lambda Functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-csharp.html) and [.NET 6](https://docs.microsoft.com/en-us/dotnet/core/whats-new/dotnet-6)
 
 ## Installation
 
