@@ -1,7 +1,8 @@
 # Clean Lambda Function
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/stphnwlsh/CleanLambdaFunction/Build%20Pipeline?label=Build%20Pipeline&logo=github&logoColor=white&style=for-the-badge)](https://github.com/stphnwlsh/CleanLambdaFunction/actions/workflows/build-pipeline.yml)
-[![Codecov](https://img.shields.io/codecov/c/github/stphnwlsh/CleanLambdaFunction?label=Code%20Coverage&logo=codecov&logoColor=white&style=for-the-badge)](https://codecov.io/gh/stphnwlsh/CleanLambdaFunction)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/stphnwlsh/cleanlamdafunction/build-pipeline.yml?label=Build%20Pipeline%20&logo=github&style=for-the-badge)](https://github.com/stphnwlsh/CleanLamdaFunction/actions/workflows/build-pipeline.yml)
+[![Codecov](https://img.shields.io/codecov/c/github/stphnwlsh/CleanLamdaFunction?label=Code%20Coverage&logo=codecov&logoColor=white&style=for-the-badge)](https://codecov.io/gh/stphnwlsh/CleanLamdaFunction)
+[![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/stphnwlsh/CleanLamdaFunction?label=OpenSSF%20Scorecard&style=for-the-badge)](https://scorecard.dev/viewer/?uri=github.com/stphnwlsh/CleanLamdaFunction)
 <!-- ![Nuget](https://img.shields.io/nuget/v/CleanLambdaFunction.Template?label=nuget%20template&logo=nuget&logoColor=white&style=for-the-badge) -->
 
 This is a template API using a streamlined version of [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) alongside AWS's [Lambda Functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-csharp.html) and [.NET 10](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/overview)
