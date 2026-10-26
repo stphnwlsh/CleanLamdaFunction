@@ -62,7 +62,7 @@ There are plenty of handy implementations of features throughout this solution, 
 - Logging using [Serilog](https://github.com/serilog/serilog)
 - Mediator Pattern using [Mediatr](https://github.com/jbogard/MediatR)
 - Testing using [Shouldly](https://github.com/shouldly/shouldly) and [NSubstitute](https://github.com/nsubstitute/NSubstitute)
-- Object Mapping using [AutoMapper](https://github.com/AutoMapper/AutoMapper)
+- Object Mapping using [Mapperly](https://mapperly.riok.app)
 
 ## Resources
 

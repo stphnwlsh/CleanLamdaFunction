@@ -5,8 +5,8 @@ namespace CleanLambdaFunction.Presentation.LambdaFunction;
 using Amazon.Lambda.Core;
 using Application;
 using Application.Authors.Queries.GetAuthors;
-using AutoMapper;
 using Infrastructure;
+using Mapping;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Models;
@@ -14,7 +14,7 @@ using Models;
 public class Handler
 {
     private readonly IMediator mediator;
-    private readonly IMapper mapper;
+    private readonly LambdaFunctionMapper mapper = new();
 
     public Handler()
     {
@@ -26,7 +26,6 @@ public class Handler
         var provider = services.BuildServiceProvider();
 
         this.mediator = provider.GetRequiredService<IMediator>();
-        this.mapper = provider.GetRequiredService<IMapper>();
     }
 
     /// <summary>
@@ -39,6 +38,6 @@ public class Handler
     {
         var authors = await this.mediator.Send(new GetAuthorsQuery());
 
-        return this.mapper.Map<List<Author>>(authors);
+        return [.. authors.Select(a => this.mapper.ToPresentation(a))];
     }
 }
