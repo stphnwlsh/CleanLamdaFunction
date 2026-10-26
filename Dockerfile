@@ -1,10 +1,10 @@
 # Docker image ARGS
 ARG BASE_IMAGE_REPO=mcr.microsoft.com
 ARG BASE_IMAGE_BUILD=dotnet/sdk
-ARG BASE_IMAGE_BUILD_TAG=6.0-alpine
+ARG BASE_IMAGE_BUILD_TAG=10.0-alpine
 ARG BASE_IMAGE_RUNTIME_REPO=public.ecr.aws
 ARG BASE_IMAGE_RUNTIME=lambda/dotnet
-ARG BASE_IMAGE_RUNTIME_TAG=6
+ARG BASE_IMAGE_RUNTIME_TAG=10
 
 # Setup Build Image
 FROM ${BASE_IMAGE_REPO}/${BASE_IMAGE_BUILD}:${BASE_IMAGE_BUILD_TAG} AS build
@@ -20,7 +20,7 @@ ENV DOTNET_ENVIRONMENT=${ENVIRONMENT}
 WORKDIR /sln
 
 # Dotnet Restore
-COPY ./*.sln ./NuGet.config  ./
+COPY ./*.sln ./NuGet.config ./Directory.Build.props ./
 COPY src/*/*.csproj ./
 RUN for file in $(ls *.csproj); do mkdir -p src/${file%.*}/ && mv $file src/${file%.*}/; done
 COPY tests/*/*.csproj ./
