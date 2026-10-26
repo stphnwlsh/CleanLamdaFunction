@@ -19,4 +19,16 @@ public class LambdaFunctionTest
         //Assert.Equal("hello world", casing.Lower);
         //Assert.Equal("HELLO WORLD", casing.Upper);
     }
+
+    [Fact]
+    public async Task Handle_ShouldReturn_Authors()
+    {
+        var handler = new Handler();
+        var context = new TestLambdaContext();
+
+        var authors = await handler.Handle("input", context);
+
+        Assert.NotEmpty(authors);
+        Assert.All(authors, a => Assert.False(string.IsNullOrEmpty(a.FirstName)));
+    }
 }
