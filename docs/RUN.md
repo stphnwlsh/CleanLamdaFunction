@@ -1,32 +1,47 @@
-# Clean Lambda Function
+# Running Clean Lambda Function
 
-## How to Run Project
+The function is packaged as a container image based on the [AWS Lambda .NET base image](https://gallery.ecr.aws/lambda/dotnet), which includes the Lambda runtime interface emulator. That lets you invoke the function locally exactly as Lambda would.
 
-There are multiple ways to run this project using two pre-configured environments `local` and `docker`.  The `appsettings.json` files are configured to run the projects in different ways and connect different application logging mechanisms.  When running locally the application logs to the console window, when running in docker it spins up [Seq](https://datalust.co/seq) in a separate container and logs there instead.
+## Docker
 
-### DOTNET CLI
-
-The CLI makes everything easier in .NET engineering.  Running this application is no different.  This task is aided by the launchsettings.json file that sets all the parameters required to run the API on your local machine.  Ports, environments and logging are all configured in the settings, so the only command required is the following single line statement.  
+Build the image and start it.
 
 ``` bash
-dotnet run --project ./src/Presentation
+docker build . --target run --tag cleanlamdafunction:local
+docker run --rm -p 9000:8080 cleanlamdafunction:local
 ```
 
-### DOCKER COMPOSE
-
-Docker compose makes it easier to start multiple containers at one time and manage their configuration from one file (`docker-compose.yml`).  This project will run the application and a [Seq](https://datalust.co/seq) containter for application logging.  
-
-- App - http://localhost:8080/swagger
-- Seq - http://localhost:5341
-
-To start the Containers
+Invoke the function from another terminal.
 
 ``` bash
-docker-compose up -d
+curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '""'
 ```
 
-To shut down the containers
+## Docker Compose
+
+`docker-compose.yml` does the same build and run in one step.
 
 ``` bash
-docker-compose down
+docker compose up -d --build
+```
+
+To shut it down:
+
+``` bash
+docker compose down
+```
+
+## Tests
+
+``` bash
+dotnet test
+```
+
+## Deploying to AWS
+
+`src/Presentation/aws-lambda-tools-defaults.json` holds the defaults for the [Amazon.Lambda.Tools](https://github.com/aws/aws-extensions-for-dotnet-cli) CLI. Fill in your profile and region, then deploy the container image.
+
+``` bash
+dotnet tool install -g Amazon.Lambda.Tools
+dotnet lambda deploy-function --project-location ./src/Presentation
 ```
