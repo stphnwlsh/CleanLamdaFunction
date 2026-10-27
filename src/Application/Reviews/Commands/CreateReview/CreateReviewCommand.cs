@@ -1,7 +1,7 @@
 namespace CleanLambdaFunction.Application.Reviews.Commands.CreateReview;
 
 using Entities;
-using MediatR;
+using Mediator;
 
 public class CreateReviewCommand : IRequest<Review>
 {

@@ -1,7 +1,7 @@
 namespace CleanLambdaFunction.Application.Reviews.Queries.GetReviews;
 
 using Entities;
-using MediatR;
+using Mediator;
 
 public class GetReviewsQuery : IRequest<List<Review>>
 {
