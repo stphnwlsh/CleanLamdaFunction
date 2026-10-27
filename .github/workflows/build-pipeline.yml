@@ -205,6 +205,13 @@ jobs:
       security-events: write
 
     steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: .trivyignore
+          sparse-checkout-cone-mode: false
+
       - name: Download Image
         id: download
         uses: actions/download-artifact@v8
@@ -224,6 +231,7 @@ jobs:
           output: trivy-results.sarif
           severity: CRITICAL,HIGH
           ignore-unfixed: true
+          trivyignores: .trivyignore
 
       - name: Upload Scan
         id: upload-scan
@@ -240,6 +248,7 @@ jobs:
           format: table
           severity: CRITICAL,HIGH
           ignore-unfixed: true
+          trivyignores: .trivyignore
           exit-code: 1
           skip-setup-trivy: true
 

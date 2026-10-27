@@ -1,0 +1,4 @@
+# Go stdlib crypto/x509 flaw in aws-lambda-rie, the runtime interface emulator that ships in
+# public.ecr.aws/lambda/dotnet. The emulator only runs when the image is started locally, never
+# in AWS Lambda, and the fix is waiting on AWS to rebuild the base image. Remove once it has.
+CVE-2026-111943 exp:2026-12-31
