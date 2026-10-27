@@ -52,6 +52,10 @@ RUN dotnet publish ./src/**/Presentation.csproj --no-build -c Release -v quiet -
 
 # Runtime Image
 FROM ${BASE_IMAGE_RUNTIME_REPO}/${BASE_IMAGE_RUNTIME}:${BASE_IMAGE_RUNTIME_TAG} AS run
+
+# Apply OS security fixes published since the base image was built
+RUN dnf upgrade -y && dnf clean all
+
 WORKDIR /var/task
 COPY --from=publish /sln/app .
 CMD [ "Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::Handle" ]
