@@ -43,6 +43,10 @@ dotnet new install CleanLambdaFunction.Template
 dotnet new cleanlambdafunction --name {YOUR_SOLUTION_NAMESPACE} --authorName "{YOUR_NAME}"
 ```
 
+### Securing the function
+
+The function is invoked directly, so there is no bearer token to check. AWS IAM decides who can call it: only principals allowed `lambda:InvokeFunction` on the function (through an IAM policy or the function's resource-based policy) can invoke it. To call it over HTTP with bearer tokens instead, put it behind an [API Gateway HTTP API with a JWT authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-jwt-authorizer.html), which validates the token before the function runs.
+
 ## Running the project
 
 ``` bash
