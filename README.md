@@ -52,17 +52,17 @@ The function is invoked directly, so there is no bearer token to check. AWS IAM 
 ``` bash
 docker build . --target run --tag cleanlamdafunction:local
 docker run --rm -p 9000:8080 cleanlamdafunction:local
-curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '""'
+curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"query":"the","offset":0,"limit":5}'
 ```
 
-The image runs the `Handle` function by default. The same handler also has `SearchMovies`, `SearchAuthors` and `SearchReviews`, which return one page of results at a time. Pass the function name to `docker run` to try one, then send the `NextCursor` from a page back as `cursor` to get the next page.
+The image runs the `GetMovies` function by default. The same handler also has `GetAuthors` and `GetReviews`. Each returns one page of results with a `TotalCount` and a `NextOffset`. Send the `NextOffset` back as `offset` to get the next page. Pass the function name to `docker run` to try another one.
 
 ``` bash
-docker run --rm -p 9000:8080 cleanlamdafunction:local "Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::SearchMovies"
-curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"query":"the","limit":5}'
+docker run --rm -p 9000:8080 cleanlamdafunction:local "Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::GetReviews"
+curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"movieId":"3fa85f64-5717-4562-b3fc-2c963f66afa6","limit":5}'
 ```
 
-`SearchReviews` takes an optional `movieId` and `authorId` in place of `query`.
+`GetReviews` takes an optional `movieId` and `authorId` in place of `query`. The function keeps its SQLite database in `/tmp`, the only place Lambda can write, and stops any work that would outrun the invocation's remaining time.
 
 The `Dockerfile` has stages for testing, publishing and running, so you can build just the part you need. You can also stamp a version into the assembly.
 
@@ -87,11 +87,12 @@ The one deliberate break from Clean Architecture is that the Presentation projec
 ## Features
 
 - Serverless functions using [AWS Lambda for .NET](https://github.com/aws/aws-lambda-dotnet), deployed as a container image
+- JSON using the source-generated Lambda serializer, which avoids reflection on cold start
 - Mediator pattern using [Mediator](https://github.com/martinothamar/Mediator)
-- Search and cursor paging for movies, authors and reviews
+- Offset paging and search for movies, authors and reviews
 - Validation using [FluentValidation](https://github.com/FluentValidation/FluentValidation) in an Application pipeline behaviour
 - Object mapping using [Mapperly](https://mapperly.riok.app)
-- In-memory data using [Entity Framework Core](https://learn.microsoft.com/ef/core/providers/in-memory/) seeded with [Bogus](https://github.com/bchavez/Bogus)
+- Data stored in [SQLite](https://learn.microsoft.com/ef/core/providers/sqlite/) using [Entity Framework Core](https://learn.microsoft.com/ef/core) migrations, seeded with [Bogus](https://github.com/bchavez/Bogus). Tests use a throwaway in-memory SQLite database, so they never touch a real one
 - Testing using [xUnit](https://xunit.net), [Shouldly](https://github.com/shouldly/shouldly) and [NSubstitute](https://github.com/nsubstitute/NSubstitute), with coverage from [Coverlet](https://github.com/coverlet-coverage/coverlet)
 - CI with GitHub Actions: build and test, 95% coverage gate, [Trivy](https://trivy.dev) container scan, [CodeQL](https://codeql.github.com) static analysis, then NuGet publishing and a GitHub release from `main` using [trusted publishing](https://learn.microsoft.com/nuget/nuget-org/trusted-publishing)
 - Monthly grouped dependency updates using [Dependabot](https://docs.github.com/code-security/dependabot)

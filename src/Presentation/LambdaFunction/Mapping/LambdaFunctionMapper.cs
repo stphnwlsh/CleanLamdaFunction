@@ -9,7 +9,7 @@ using PresentationMovie = Models.Movie;
 using PresentationReview = Models.Review;
 
 [Mapper]
-internal partial class LambdaFunctionMapper
+internal sealed partial class LambdaFunctionMapper
 {
     public partial PresentationAuthor ToPresentation(AppAuthor author);
 

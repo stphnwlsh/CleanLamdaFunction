@@ -1,13 +1,13 @@
-[assembly: Amazon.Lambda.Core.LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
+[assembly: Amazon.Lambda.Core.LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.SourceGeneratorLambdaJsonSerializer<CleanLambdaFunction.Presentation.LambdaFunction.Serialization.LambdaFunctionJsonSerializerContext>))]
 
 namespace CleanLambdaFunction.Presentation.LambdaFunction;
 
 using Amazon.Lambda.Core;
 using Application;
 using Application.Authors.Queries.GetAuthors;
-using Application.Authors.Queries.SearchAuthors;
-using Application.Movies.Queries.SearchMovies;
-using Application.Reviews.Queries.SearchReviews;
+using AppPaging = Application.Common.Paging;
+using Application.Movies.Queries.GetMovies;
+using Application.Reviews.Queries.GetReviews;
 using Infrastructure;
 using Mapping;
 using Mediator;
@@ -16,94 +16,107 @@ using Models;
 
 public class Handler
 {
+    /// <summary>
+    /// Lambda can only write to /tmp, so the SQLite database lives there unless the environment variable says otherwise.
+    /// </summary>
+    public const string DefaultConnectionString = "Data Source=/tmp/movie-reviews.db";
+
+    public const string ConnectionStringVariable = "ConnectionStrings__MovieReviews";
+
     private readonly ServiceProvider provider;
     private readonly LambdaFunctionMapper mapper = new();
 
     public Handler()
+        : this(Environment.GetEnvironmentVariable(ConnectionStringVariable) ?? DefaultConnectionString)
+    {
+    }
+
+    public Handler(string connectionString)
     {
         var services = new ServiceCollection();
 
         _ = services.AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped);
-        _ = services.AddInfrastructure();
+        _ = services.AddInfrastructure(connectionString);
         _ = services.AddApplication();
 
         this.provider = services.BuildServiceProvider(validateScopes: true);
+        _ = this.provider.InitialiseInfrastructure();
     }
 
     /// <summary>
-    /// A simple function that takes a string and returns both the upper and lower case version of the string.
+    /// Lists movies ordered by title, one page at a time, optionally only those whose title contains a search term.
+    /// This is the function the image runs by default.
     /// </summary>
-    /// <param name="input"></param>
-    /// <param name="context"></param>
-    /// <returns></returns>
-    public async Task<List<Author>> Handle(string input, ILambdaContext context)
-    {
-        var authors = await this.Send(new GetAuthorsQuery());
-
-        return [.. authors.Select(a => this.mapper.ToPresentation(a))];
-    }
-
-    /// <summary>
-    /// Finds movies whose title contains the search term, ordered by title, one page at a time.
-    /// </summary>
-    /// <param name="request">The search term, limit and cursor.</param>
+    /// <param name="request">The search term, offset and limit.</param>
     /// <param name="context">The Lambda invocation context.</param>
-    /// <returns>One page of matching movies.</returns>
-    public async Task<Page<Movie>> SearchMovies(SearchRequest request, ILambdaContext context)
+    /// <returns>One page of movies.</returns>
+    public async Task<Page<Movie>> GetMovies(ListRequest request, ILambdaContext context)
     {
-        var page = await this.Send(new SearchMoviesQuery
+        var page = await this.Send(new GetMoviesQuery
         {
             Query = request.Query,
-            Limit = request.Limit,
-            Cursor = request.Cursor
-        });
+            Offset = request.Offset,
+            Limit = request.Limit
+        }, context);
 
-        return new Page<Movie>([.. page.Items.Select(m => this.mapper.ToPresentation(m))], page.TotalCount, page.NextCursor);
+        return ToPage(page, this.mapper.ToPresentation);
     }
 
     /// <summary>
-    /// Finds authors whose first name, last name or full name contains the search term, ordered by name, one page at a time.
+    /// Lists authors ordered by last name then first name, one page at a time, optionally only those whose name contains a search term.
     /// </summary>
-    /// <param name="request">The search term, limit and cursor.</param>
+    /// <param name="request">The search term, offset and limit.</param>
     /// <param name="context">The Lambda invocation context.</param>
-    /// <returns>One page of matching authors.</returns>
-    public async Task<Page<Author>> SearchAuthors(SearchRequest request, ILambdaContext context)
+    /// <returns>One page of authors.</returns>
+    public async Task<Page<Author>> GetAuthors(ListRequest request, ILambdaContext context)
     {
-        var page = await this.Send(new SearchAuthorsQuery
+        var page = await this.Send(new GetAuthorsQuery
         {
             Query = request.Query,
-            Limit = request.Limit,
-            Cursor = request.Cursor
-        });
+            Offset = request.Offset,
+            Limit = request.Limit
+        }, context);
 
-        return new Page<Author>([.. page.Items.Select(a => this.mapper.ToPresentation(a))], page.TotalCount, page.NextCursor);
+        return ToPage(page, this.mapper.ToPresentation);
     }
 
     /// <summary>
-    /// Finds reviews, optionally only those of one movie, by one author, or both, one page at a time.
+    /// Lists reviews ordered by movie then author, one page at a time, optionally only those of one movie, by one author, or both.
     /// </summary>
-    /// <param name="request">The movie, author, limit and cursor.</param>
+    /// <param name="request">The movie, author, offset and limit.</param>
     /// <param name="context">The Lambda invocation context.</param>
-    /// <returns>One page of matching reviews.</returns>
-    public async Task<Page<Review>> SearchReviews(SearchReviewsRequest request, ILambdaContext context)
+    /// <returns>One page of reviews.</returns>
+    public async Task<Page<Review>> GetReviews(ListReviewsRequest request, ILambdaContext context)
     {
-        var page = await this.Send(new SearchReviewsQuery
+        var page = await this.Send(new GetReviewsQuery
         {
             MovieId = request.MovieId,
             AuthorId = request.AuthorId,
-            Limit = request.Limit,
-            Cursor = request.Cursor
-        });
+            Offset = request.Offset,
+            Limit = request.Limit
+        }, context);
 
-        return new Page<Review>([.. page.Items.Select(r => this.mapper.ToPresentation(r))], page.TotalCount, page.NextCursor);
+        return ToPage(page, this.mapper.ToPresentation);
     }
 
-    private async Task<TResponse> Send<TResponse>(IRequest<TResponse> request)
+    private static Page<TResult> ToPage<T, TResult>(AppPaging.Page<T> page, Func<T, TResult> map)
     {
+        var nextOffset = page.Offset + page.Items.Count;
+
+        return new Page<TResult>([.. page.Items.Select(map)], page.TotalCount, nextOffset < page.TotalCount ? nextOffset : null);
+    }
+
+    private async Task<TResponse> Send<TResponse>(IRequest<TResponse> request, ILambdaContext context)
+    {
+        // Stop the work when the invocation runs out of time, rather than letting Lambda kill it part way through.
+        using var cancellation = context.RemainingTime > TimeSpan.Zero
+            ? new CancellationTokenSource(context.RemainingTime)
+            : new CancellationTokenSource();
+
         await using var scope = this.provider.CreateAsyncScope();
 
         var sender = scope.ServiceProvider.GetRequiredService<ISender>();
 
-        return await sender.Send(request);
+        return await sender.Send(request, cancellation.Token);
     }
 }
