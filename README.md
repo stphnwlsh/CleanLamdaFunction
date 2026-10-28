@@ -51,7 +51,7 @@ docker run --rm -p 9000:8080 cleanlamdafunction:local
 curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '""'
 ```
 
-The image runs the `Handle` function by default. The same handler also has `SearchMovies`, `SearchAuthors` and `SearchReviews`, which return one page of results at a time. Pass the function name to `docker run` to try one, then send the `nextCursor` from a page back as `cursor` to get the next page.
+The image runs the `Handle` function by default. The same handler also has `SearchMovies`, `SearchAuthors` and `SearchReviews`, which return one page of results at a time. Pass the function name to `docker run` to try one, then send the `NextCursor` from a page back as `cursor` to get the next page.
 
 ``` bash
 docker run --rm -p 9000:8080 cleanlamdafunction:local "Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::SearchMovies"
