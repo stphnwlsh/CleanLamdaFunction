@@ -7,8 +7,8 @@ The function is packaged as a container image based on the [AWS Lambda .NET base
 Build the image and start it.
 
 ``` bash
-docker build . --target run --tag cleanlamdafunction:local
-docker run --rm -p 9000:8080 cleanlamdafunction:local
+docker build . --target run --tag cleanlambdafunction:local
+docker run --rm -p 9000:8080 cleanlambdafunction:local
 ```
 
 Invoke the function from another terminal.
