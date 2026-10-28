@@ -51,6 +51,15 @@ docker run --rm -p 9000:8080 cleanlamdafunction:local
 curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '""'
 ```
 
+The image runs the `Handle` function by default. The same handler also has `SearchMovies`, `SearchAuthors` and `SearchReviews`, which return one page of results at a time. Pass the function name to `docker run` to try one, then send the `nextCursor` from a page back as `cursor` to get the next page.
+
+``` bash
+docker run --rm -p 9000:8080 cleanlamdafunction:local "Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::SearchMovies"
+curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"query":"the","limit":5}'
+```
+
+`SearchReviews` takes an optional `movieId` and `authorId` in place of `query`.
+
 The `Dockerfile` has stages for testing, publishing and running, so you can build just the part you need. You can also stamp a version into the assembly.
 
 ``` bash
@@ -75,6 +84,7 @@ The one deliberate break from Clean Architecture is that the Presentation projec
 
 - Serverless functions using [AWS Lambda for .NET](https://github.com/aws/aws-lambda-dotnet), deployed as a container image
 - Mediator pattern using [Mediator](https://github.com/martinothamar/Mediator)
+- Search and cursor paging for movies, authors and reviews
 - Validation using [FluentValidation](https://github.com/FluentValidation/FluentValidation) in an Application pipeline behaviour
 - Object mapping using [Mapperly](https://mapperly.riok.app)
 - In-memory data using [Entity Framework Core](https://learn.microsoft.com/ef/core/providers/in-memory/) seeded with [Bogus](https://github.com/bchavez/Bogus)

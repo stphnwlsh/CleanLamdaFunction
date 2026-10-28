@@ -14,8 +14,8 @@ internal partial class LambdaFunctionMapper
     public partial PresentationAuthor ToPresentation(AppAuthor author);
 
     [MapperIgnoreSource(nameof(AppMovie.Reviews))]
-    private partial PresentationMovie ToPresentation(AppMovie movie);
+    public partial PresentationMovie ToPresentation(AppMovie movie);
 
     [MapperIgnoreSource(nameof(AppReview.ReviewAuthor))]
-    private partial PresentationReview ToPresentation(AppReview review);
+    public partial PresentationReview ToPresentation(AppReview review);
 }
