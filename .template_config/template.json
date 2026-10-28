@@ -3,15 +3,16 @@
   "author": "Stephen Walsh",
   "classifications": [
     "Clean Architecture",
-    "Clean",
-    "Lambda Function",
-    "Minimal",
-    "API",
+    "Cloud",
+    "AWS",
+    "Lambda",
+    "Serverless",
     "Dotnet",
     "Docker"
   ],
   "identity": "CleanLambdaFunction.Template",
   "name": "Clean Lambda Function Template",
+  "description": "A dotnet new template for an AWS Lambda function packaged as a container image, built with a streamlined Clean Architecture on .NET 10.",
   "shortName": "cleanlambdafunction",
   "tags": {
     "language": "C#",
