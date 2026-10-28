@@ -1,4 +1,4 @@
-namespace CleanLambdaFunction.Infrastructure.Databases.MoviesReviews.Configuration;
+namespace CleanLambdaFunction.Infrastructure.Databases.MovieReviews.Configuration;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

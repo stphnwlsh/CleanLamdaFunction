@@ -7,25 +7,24 @@ using Application;
 using Application.Authors.Queries.GetAuthors;
 using Infrastructure;
 using Mapping;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Models;
 
 public class Handler
 {
-    private readonly IMediator mediator;
+    private readonly ServiceProvider provider;
     private readonly LambdaFunctionMapper mapper = new();
 
     public Handler()
     {
         var services = new ServiceCollection();
 
+        _ = services.AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped);
         _ = services.AddInfrastructure();
         _ = services.AddApplication();
 
-        var provider = services.BuildServiceProvider();
-
-        this.mediator = provider.GetRequiredService<IMediator>();
+        this.provider = services.BuildServiceProvider(validateScopes: true);
     }
 
     /// <summary>
@@ -36,7 +35,10 @@ public class Handler
     /// <returns></returns>
     public async Task<List<Author>> Handle(string input, ILambdaContext context)
     {
-        var authors = await this.mediator.Send(new GetAuthorsQuery());
+        await using var scope = this.provider.CreateAsyncScope();
+
+        var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+        var authors = await sender.Send(new GetAuthorsQuery());
 
         return [.. authors.Select(a => this.mapper.ToPresentation(a))];
     }

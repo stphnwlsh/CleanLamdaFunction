@@ -73,15 +73,15 @@ The one deliberate break from Clean Architecture is that the Presentation projec
 
 ### Project structure
 
-1. **Presentation** - Exposes the Application layer as an AWS Lambda handler. The handler builds the service provider once per container, sends a MediatR query and maps the result into its response model.
+1. **Presentation** - Exposes the Application layer as an AWS Lambda handler. The handler builds the service provider once per container, opens a new scope for each invocation, sends a query through Mediator and maps the result into its response model.
 1. **Application** - Owns the domain and business logic. Commands and queries are validated and handled here, and each domain type has its own repository interface. This layer doesn't care what fulfils those contracts, as long as something does.
 1. **Infrastructure** - Owns the data. It implements the repository interfaces to fetch, create, update and remove data, and maps its own data models onto the Application entities so persistence details don't leak upwards.
 
 ## Features
 
 - Serverless functions using [AWS Lambda for .NET](https://github.com/aws/aws-lambda-dotnet), deployed as a container image
-- Mediator pattern using [MediatR](https://github.com/jbogard/MediatR)
-- Validation using [FluentValidation](https://github.com/FluentValidation/FluentValidation)
+- Mediator pattern using [Mediator](https://github.com/martinothamar/Mediator)
+- Validation using [FluentValidation](https://github.com/FluentValidation/FluentValidation) in an Application pipeline behaviour
 - Object mapping using [Mapperly](https://mapperly.riok.app)
 - In-memory data using [Entity Framework Core](https://learn.microsoft.com/ef/core/providers/in-memory/) seeded with [Bogus](https://github.com/bchavez/Bogus)
 - Testing using [xUnit](https://xunit.net), [Shouldly](https://github.com/shouldly/shouldly) and [NSubstitute](https://github.com/nsubstitute/NSubstitute), with coverage from [Coverlet](https://github.com/coverlet-coverage/coverlet)
