@@ -13,7 +13,7 @@ dotnet new install CleanLambdaFunction.Template
 ## Usage
 
 ``` bash
-dotnet new cleanlambdafunction --name {YOUR_SOLUTION_NAMESPACE} --author "{YOUR_NAME}"
+dotnet new cleanlambdafunction --name {YOUR_SOLUTION_NAMESPACE} --authorName "{YOUR_NAME}"
 ```
 
 ## Documentation
