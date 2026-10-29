@@ -8,3 +8,5 @@ services:
         VERSION_SUFFIX: docker
     ports:
       - "9000:8080"
+    environment:
+      Database__SeedSampleData: "true"

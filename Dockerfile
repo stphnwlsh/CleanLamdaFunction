@@ -20,7 +20,7 @@ ENV DOTNET_ENVIRONMENT=${ENVIRONMENT}
 WORKDIR /sln
 
 # Dotnet Restore
-COPY ./*.sln ./NuGet.config ./Directory.Build.props ./
+COPY ./*.sln ./NuGet.config ./Directory.Build.props ./Directory.Packages.props ./
 COPY src/*/*.csproj ./
 RUN for file in $(ls *.csproj); do mkdir -p src/${file%.*}/ && mv $file src/${file%.*}/; done
 COPY tests/*/*.csproj ./
@@ -36,7 +36,7 @@ RUN dotnet build --no-restore -c Release -v minimal -p:VersionPrefix=${VERSION_P
 
 # Dotnet Test
 FROM build AS test
-RUN dotnet test --no-restore --no-build -c Release -v minimal -p:CollectCoverage=true  -p:CoverletOutput=../results/ -p:MergeWith="../results/coverage.json" -p:CoverletOutputFormat=opencover%2cjson -m:1
+RUN dotnet test --no-restore --no-build -c Release -v minimal -p:CollectCoverage=true  -p:CoverletOutput=../results/ -p:MergeWith="../results/coverage.json" -p:CoverletOutputFormat=opencover%2cjson -m:1 -p:ExcludeByFile="**/Migrations/*.cs"
 
 FROM scratch AS coverage
 COPY --from=test /sln/tests/results/*.xml .
@@ -56,4 +56,4 @@ RUN dnf upgrade -y --releasever=latest && dnf clean all
 
 WORKDIR /var/task
 COPY --from=publish /sln/app .
-CMD [ "Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::Handle" ]
+CMD [ "Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::GetMovies" ]
