@@ -1,13 +1,5 @@
-# Docker image ARGS
-ARG BASE_IMAGE_REPO=mcr.microsoft.com
-ARG BASE_IMAGE_BUILD=dotnet/sdk
-ARG BASE_IMAGE_BUILD_TAG=10.0-alpine
-ARG BASE_IMAGE_RUNTIME_REPO=public.ecr.aws
-ARG BASE_IMAGE_RUNTIME=lambda/dotnet
-ARG BASE_IMAGE_RUNTIME_TAG=10
-
 # Setup Build Image
-FROM ${BASE_IMAGE_REPO}/${BASE_IMAGE_BUILD}:${BASE_IMAGE_BUILD_TAG} AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine@sha256:cc02b814237a76c4735fb6eeee87181597b5e56f2ce458a435e527674d91f4d7 AS build
 
 # Build, Test and Publish ARGS
 ARG VERSION_PREFIX=1.0.0.0
@@ -21,12 +13,9 @@ WORKDIR /sln
 
 # Dotnet Restore
 COPY ./*.sln ./NuGet.config ./Directory.Build.props ./Directory.Packages.props ./
-COPY src/*/*.csproj ./
-RUN for file in $(ls *.csproj); do mkdir -p src/${file%.*}/ && mv $file src/${file%.*}/; done
-COPY tests/*/*.csproj ./
-RUN for file in $(ls *.csproj); do mkdir -p tests/${file%.*}/ && mv $file tests/${file%.*}/; done
+COPY --parents src/*/*.csproj src/*/packages.lock.json tests/*/*.csproj tests/*/packages.lock.json ./
 
-RUN dotnet restore -v minimal
+RUN dotnet restore --locked-mode -v minimal
 
 # Copy Remaining Files
 COPY . .
@@ -48,7 +37,7 @@ ARG VERSION_SUFFIX
 RUN dotnet publish ./src/**/Presentation.csproj --no-build -c Release -v quiet -o app -p:VersionPrefix=${VERSION_PREFIX} -p:VersionSuffix=${VERSION_SUFFIX} --no-self-contained
 
 # Runtime Image
-FROM ${BASE_IMAGE_RUNTIME_REPO}/${BASE_IMAGE_RUNTIME}:${BASE_IMAGE_RUNTIME_TAG} AS run
+FROM public.ecr.aws/lambda/dotnet:10@sha256:3fe5525cd0bc056b37ce8d22158c170688af25ff149490e2310299972a889ed4 AS run
 
 # Apply OS security fixes published since the base image was built. Amazon Linux
 # 2023 pins packages to the release the image was built from, so ask for the latest.
