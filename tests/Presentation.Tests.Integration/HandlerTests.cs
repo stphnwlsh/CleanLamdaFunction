@@ -80,6 +80,44 @@ public class HandlerTests
     }
 
     [Fact]
+    public void Handler_ShouldUse_DefaultsWhenEnvironmentIsUnset()
+    {
+        // Arrange
+        Environment.SetEnvironmentVariable(Handler.ConnectionStringVariable, null);
+        Environment.SetEnvironmentVariable(Handler.SeedSampleDataVariable, null);
+
+        // Act
+        var connectionString = Handler.ConnectionStringFromEnvironment();
+        var seedSampleData = Handler.SeedSampleDataFromEnvironment();
+
+        // Assert
+        connectionString.ShouldBe(Handler.DefaultConnectionString);
+        seedSampleData.ShouldBeFalse();
+    }
+
+    [Theory]
+    [InlineData("false")]
+    [InlineData("yes")]
+    public void Handler_ShouldNotSeed_UnlessEnvironmentSaysTrue(string value)
+    {
+        // Arrange
+        Environment.SetEnvironmentVariable(Handler.SeedSampleDataVariable, value);
+
+        try
+        {
+            // Act
+            var seedSampleData = Handler.SeedSampleDataFromEnvironment();
+
+            // Assert
+            seedSampleData.ShouldBeFalse();
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(Handler.SeedSampleDataVariable, null);
+        }
+    }
+
+    [Fact]
     public async Task Handler_ShouldNotSeed_WhenSampleDataIsOff()
     {
         // Arrange

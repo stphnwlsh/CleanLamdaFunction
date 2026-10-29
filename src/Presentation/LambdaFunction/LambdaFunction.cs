@@ -32,9 +32,7 @@ public class Handler
     private readonly LambdaFunctionMapper mapper = new();
 
     public Handler()
-        : this(
-            Environment.GetEnvironmentVariable(ConnectionStringVariable) ?? DefaultConnectionString,
-            bool.TryParse(Environment.GetEnvironmentVariable(SeedSampleDataVariable), out var seedSampleData) && seedSampleData)
+        : this(ConnectionStringFromEnvironment(), SeedSampleDataFromEnvironment())
     {
     }
 
@@ -104,6 +102,24 @@ public class Handler
         }, context);
 
         return ToPage(page, this.mapper.ToPresentation);
+    }
+
+    /// <summary>
+    /// The connection string from the environment, or the default in /tmp when it isn't set.
+    /// </summary>
+    /// <returns>The connection string the handler uses.</returns>
+    public static string ConnectionStringFromEnvironment()
+    {
+        return Environment.GetEnvironmentVariable(ConnectionStringVariable) ?? DefaultConnectionString;
+    }
+
+    /// <summary>
+    /// Whether the environment asks for sample data. Anything other than true, including no value, means no.
+    /// </summary>
+    /// <returns>True when sample data should be seeded into an empty database.</returns>
+    public static bool SeedSampleDataFromEnvironment()
+    {
+        return bool.TryParse(Environment.GetEnvironmentVariable(SeedSampleDataVariable), out var seedSampleData) && seedSampleData;
     }
 
     private static Page<TResult> ToPage<T, TResult>(AppPaging.Page<T> page, Func<T, TResult> map)
