@@ -10,7 +10,7 @@ using Xunit;
 public class HandlerTests
 {
     // Every test class gets its own in-memory database, so tests never share or keep data.
-    private readonly Handler handler = new($"Data Source=Tests-{Guid.NewGuid()};Mode=Memory;Cache=Shared");
+    private readonly Handler handler = new($"Data Source=Tests-{Guid.NewGuid()};Mode=Memory;Cache=Shared", seedSampleData: true);
     private readonly TestLambdaContext context = new() { RemainingTime = TimeSpan.FromSeconds(30) };
 
     [Fact]
@@ -24,6 +24,7 @@ public class HandlerTests
         result.TotalCount.ShouldBe(50);
         result.NextOffset.ShouldBe(10);
         result.Items.ShouldAllBe(m => m.Id != Guid.Empty && !string.IsNullOrWhiteSpace(m.Title));
+        result.Items.ShouldAllBe(m => m.ReviewCount == 0 ? m.AverageStars == null : m.AverageStars != null);
     }
 
     [Fact]
@@ -57,10 +58,11 @@ public class HandlerTests
     }
 
     [Fact]
-    public async Task Handler_ShouldRead_ConnectionStringFromEnvironment()
+    public async Task Handler_ShouldRead_SettingsFromEnvironment()
     {
         // Arrange
         Environment.SetEnvironmentVariable(Handler.ConnectionStringVariable, $"Data Source=Tests-{Guid.NewGuid()};Mode=Memory;Cache=Shared");
+        Environment.SetEnvironmentVariable(Handler.SeedSampleDataVariable, "true");
 
         try
         {
@@ -73,7 +75,22 @@ public class HandlerTests
         finally
         {
             Environment.SetEnvironmentVariable(Handler.ConnectionStringVariable, null);
+            Environment.SetEnvironmentVariable(Handler.SeedSampleDataVariable, null);
         }
+    }
+
+    [Fact]
+    public async Task Handler_ShouldNotSeed_WhenSampleDataIsOff()
+    {
+        // Arrange
+        var empty = new Handler($"Data Source=Tests-{Guid.NewGuid()};Mode=Memory;Cache=Shared", seedSampleData: false);
+
+        // Act
+        var result = await empty.GetMovies(new ListRequest(), this.context);
+
+        // Assert
+        result.TotalCount.ShouldBe(0);
+        result.Items.ShouldBeEmpty();
     }
 
     [Fact]
@@ -164,15 +181,14 @@ public class HandlerTests
     public async Task GetReviews_ShouldReturn_ReviewsByAuthor()
     {
         // Arrange
-        var author = (await this.handler.GetAuthors(new ListRequest { Limit = 50 }, this.context)).Items.First(a => a.Reviews?.Count > 0);
+        var author = (await this.handler.GetAuthors(new ListRequest { Limit = 50 }, this.context)).Items.First(a => a.ReviewCount > 0);
 
         // Act
         var result = await this.handler.GetReviews(new ListReviewsRequest { AuthorId = author.Id, Limit = 50 }, this.context);
 
         // Assert
-        var reviews = author.Reviews.ShouldNotBeNull();
-        result.TotalCount.ShouldBe(reviews.Count);
-        result.Items.Select(r => r.Id).ShouldBe(reviews.Select(r => r.Id), ignoreOrder: true);
+        result.TotalCount.ShouldBe(author.ReviewCount);
+        result.Items.Average(r => r.Stars).ShouldBe(author.AverageStars.ShouldNotBeNull(), 0.05);
     }
 
     [Fact]

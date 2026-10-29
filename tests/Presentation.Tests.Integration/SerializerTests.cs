@@ -15,7 +15,7 @@ public class SerializerTests
     public void Deserialize_ShouldRead_ListRequest()
     {
         // Arrange
-        using var input = new MemoryStream(Encoding.UTF8.GetBytes("""{"query":"star","offset":20,"limit":5}"""));
+        using var input = new MemoryStream(Encoding.UTF8.GetBytes(/*lang=json,strict*/ """{"query":"star","offset":20,"limit":5}"""));
 
         // Act
         var request = this.serializer.Deserialize<ListRequest>(input);
@@ -37,6 +37,6 @@ public class SerializerTests
         this.serializer.Serialize(page, output);
 
         // Assert
-        Encoding.UTF8.GetString(output.ToArray()).ShouldBe("""{"Items":[{"Id":"00000000-0000-0000-0000-000000000000","Title":"Lorem Ipsum"}],"TotalCount":1}""");
+        Encoding.UTF8.GetString(output.ToArray()).ShouldBe(/*lang=json,strict*/ """{"Items":[{"Id":"00000000-0000-0000-0000-000000000000","Title":"Lorem Ipsum","ReviewCount":0}],"TotalCount":1}""");
     }
 }

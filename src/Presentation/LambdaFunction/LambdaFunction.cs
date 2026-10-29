@@ -5,7 +5,6 @@ namespace CleanLambdaFunction.Presentation.LambdaFunction;
 using Amazon.Lambda.Core;
 using Application;
 using Application.Authors.Queries.GetAuthors;
-using AppPaging = Application.Common.Paging;
 using Application.Movies.Queries.GetMovies;
 using Application.Reviews.Queries.GetReviews;
 using Infrastructure;
@@ -13,6 +12,7 @@ using Mapping;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Models;
+using AppPaging = Application.Common.Paging;
 
 public class Handler
 {
@@ -23,15 +23,22 @@ public class Handler
 
     public const string ConnectionStringVariable = "ConnectionStrings__MovieReviews";
 
+    /// <summary>
+    /// Set it to true to seed sample data into an empty database. Leave it unset anywhere real data lives.
+    /// </summary>
+    public const string SeedSampleDataVariable = "Database__SeedSampleData";
+
     private readonly ServiceProvider provider;
     private readonly LambdaFunctionMapper mapper = new();
 
     public Handler()
-        : this(Environment.GetEnvironmentVariable(ConnectionStringVariable) ?? DefaultConnectionString)
+        : this(
+            Environment.GetEnvironmentVariable(ConnectionStringVariable) ?? DefaultConnectionString,
+            bool.TryParse(Environment.GetEnvironmentVariable(SeedSampleDataVariable), out var seedSampleData) && seedSampleData)
     {
     }
 
-    public Handler(string connectionString)
+    public Handler(string connectionString, bool seedSampleData)
     {
         var services = new ServiceCollection();
 
@@ -40,7 +47,7 @@ public class Handler
         _ = services.AddApplication();
 
         this.provider = services.BuildServiceProvider(validateScopes: true);
-        _ = this.provider.InitialiseInfrastructure();
+        _ = this.provider.InitialiseInfrastructure(seedSampleData);
     }
 
     /// <summary>
@@ -49,7 +56,7 @@ public class Handler
     /// </summary>
     /// <param name="request">The search term, offset and limit.</param>
     /// <param name="context">The Lambda invocation context.</param>
-    /// <returns>One page of movies.</returns>
+    /// <returns>One page of movies, each with its review count and average stars.</returns>
     public async Task<Page<Movie>> GetMovies(ListRequest request, ILambdaContext context)
     {
         var page = await this.Send(new GetMoviesQuery
@@ -67,7 +74,7 @@ public class Handler
     /// </summary>
     /// <param name="request">The search term, offset and limit.</param>
     /// <param name="context">The Lambda invocation context.</param>
-    /// <returns>One page of authors.</returns>
+    /// <returns>One page of authors, each with their review count and average stars.</returns>
     public async Task<Page<Author>> GetAuthors(ListRequest request, ILambdaContext context)
     {
         var page = await this.Send(new GetAuthorsQuery

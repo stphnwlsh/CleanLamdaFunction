@@ -51,14 +51,14 @@ The function is invoked directly, so there is no bearer token to check. AWS IAM 
 
 ``` bash
 docker build . --target run --tag cleanlamdafunction:local
-docker run --rm -p 9000:8080 cleanlamdafunction:local
+docker run --rm -p 9000:8080 -e Database__SeedSampleData=true cleanlamdafunction:local
 curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"query":"the","offset":0,"limit":5}'
 ```
 
-The image runs the `GetMovies` function by default. The same handler also has `GetAuthors` and `GetReviews`. Each returns one page of results with a `TotalCount` and a `NextOffset`. Send the `NextOffset` back as `offset` to get the next page. Pass the function name to `docker run` to try another one.
+The image runs the `GetMovies` function by default. The same handler also has `GetAuthors` and `GetReviews`. Each returns one page of results with a `TotalCount` and a `NextOffset`, and movies and authors come with their review count and average stars. Send the `NextOffset` back as `offset` to get the next page. Pass the function name to `docker run` to try another one.
 
 ``` bash
-docker run --rm -p 9000:8080 cleanlamdafunction:local "Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::GetReviews"
+docker run --rm -p 9000:8080 -e Database__SeedSampleData=true cleanlamdafunction:local "Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::GetReviews"
 curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"movieId":"3fa85f64-5717-4562-b3fc-2c963f66afa6","limit":5}'
 ```
 
@@ -89,12 +89,13 @@ The one deliberate break from Clean Architecture is that the Presentation projec
 - Serverless functions using [AWS Lambda for .NET](https://github.com/aws/aws-lambda-dotnet), deployed as a container image
 - JSON using the source-generated Lambda serializer, which avoids reflection on cold start
 - Mediator pattern using [Mediator](https://github.com/martinothamar/Mediator)
-- Offset paging and search for movies, authors and reviews
+- Offset paging and search for movies, authors and reviews, with review counts and average stars worked out by the database
 - Validation using [FluentValidation](https://github.com/FluentValidation/FluentValidation) in an Application pipeline behaviour
 - Object mapping using [Mapperly](https://mapperly.riok.app)
-- Data stored in [SQLite](https://learn.microsoft.com/ef/core/providers/sqlite/) using [Entity Framework Core](https://learn.microsoft.com/ef/core) migrations, seeded with [Bogus](https://github.com/bchavez/Bogus). Tests use a throwaway in-memory SQLite database, so they never touch a real one
+- Data stored in [SQLite](https://learn.microsoft.com/ef/core/providers/sqlite/) using [Entity Framework Core](https://learn.microsoft.com/ef/core) migrations, seeded with [Bogus](https://github.com/bchavez/Bogus) only when `Database:SeedSampleData` is on. Each test uses its own throwaway in-memory SQLite database, so tests never touch a real one or each other's data
 - Testing using [xUnit](https://xunit.net), [Shouldly](https://github.com/shouldly/shouldly) and [NSubstitute](https://github.com/nsubstitute/NSubstitute), with coverage from [Coverlet](https://github.com/coverlet-coverage/coverlet)
-- CI with GitHub Actions: build and test, 95% coverage gate, [Trivy](https://trivy.dev) container scan, [CodeQL](https://codeql.github.com) static analysis, then NuGet publishing and a GitHub release from `main` using [trusted publishing](https://learn.microsoft.com/nuget/nuget-org/trusted-publishing)
+- Build rules in `Directory.Build.props`: code style and the recommended analyzers are checked on every build, warnings fail it, and package versions live in one place with [Central Package Management](https://learn.microsoft.com/nuget/consume-packages/central-package-management)
+- CI with GitHub Actions: build and test, a `dotnet format` check, 95% coverage gate, [Trivy](https://trivy.dev) container scan, [CodeQL](https://codeql.github.com) static analysis, then NuGet publishing and a GitHub release from `main` using [trusted publishing](https://learn.microsoft.com/nuget/nuget-org/trusted-publishing)
 - Monthly grouped dependency updates using [Dependabot](https://docs.github.com/code-security/dependabot)
 
 ## Related templates
