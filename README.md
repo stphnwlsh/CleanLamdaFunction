@@ -2,7 +2,6 @@
 
 [![Build Pipeline](https://img.shields.io/github/actions/workflow/status/stphnwlsh/CleanLamdaFunction/build-pipeline.yml?branch=main&label=Build%20Pipeline&logo=github&style=for-the-badge)](https://github.com/stphnwlsh/CleanLamdaFunction/actions/workflows/build-pipeline.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/stphnwlsh/CleanLamdaFunction?label=Code%20Coverage&logo=codecov&logoColor=white&style=for-the-badge)](https://codecov.io/gh/stphnwlsh/CleanLamdaFunction)
-[![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/stphnwlsh/CleanLamdaFunction?label=OpenSSF%20Scorecard&style=for-the-badge)](https://scorecard.dev/viewer/?uri=github.com/stphnwlsh/CleanLamdaFunction)
 [![NuGet](https://img.shields.io/nuget/v/CleanLambdaFunction.Template?label=NuGet&logo=nuget&logoColor=white&style=for-the-badge)](https://www.nuget.org/packages/CleanLambdaFunction.Template)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/CleanLambdaFunction.Template?label=Downloads&logo=nuget&logoColor=white&style=for-the-badge)](https://www.nuget.org/packages/CleanLambdaFunction.Template)
 [![License](https://img.shields.io/github/license/stphnwlsh/CleanLamdaFunction?label=License&style=for-the-badge)](LICENSE.md)
