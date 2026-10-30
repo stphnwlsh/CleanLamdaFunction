@@ -1,0 +1,80 @@
+---
+title: Architecture
+description: The three layers, the one rule we bend, and what happens when the function is invoked.
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+This solution is loosely based on Clean Architecture. It's by no means perfect, so I prefer to call it **Lean Mean Clean Architecture**. The inspiration is [Jason Taylor's Clean Architecture template](https://github.com/jasontaylordev/CleanArchitecture), with some ideas taken further and others scaled back.
+
+## Dependencies point inwards
+
+Application sits in the middle and depends on nothing. Presentation and Infrastructure sit around the outside, and both depend on Application. The outside can change without the middle noticing.
+
+<svg class="cl-diagram" viewBox="0 0 640 300" role="img" aria-label="Application sits in the middle. Presentation and Infrastructure sit around the outside and both depend inwards on Application.">
+  <path d="M150,20 A130,130 0 0,0 150,280 L150,230 A80,80 0 0,1 150,70 Z" fill="#8DBA5A" />
+  <path d="M150,20 A130,130 0 0,1 150,280 L150,230 A80,80 0 0,0 150,70 Z" fill="#4D6B2C" />
+  <circle cx="150" cy="150" r="78" fill="#FBFAF8" />
+  <text x="45" y="150" transform="rotate(-90 45 150)" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" letter-spacing="2" fill="#0B132A">PRESENTATION</text>
+  <text x="255" y="150" transform="rotate(90 255 150)" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" letter-spacing="2" fill="#FBFAF8">INFRASTRUCTURE</text>
+  <text x="150" y="146" text-anchor="middle" font-size="15" font-weight="800" fill="#0B132A">APPLICATION</text>
+  <text x="150" y="166" text-anchor="middle" font-size="12" fill="#535D78">depended on by everyone</text>
+  <g stroke="#0B132A" stroke-width="3" stroke-linecap="round" fill="none">
+    <path d="M150,34 v26 m-7,-8 l7,8 l7,-8" />
+    <path d="M150,266 v-26 m-7,8 l7,-8 l7,8" />
+  </g>
+  <g font-size="15" fill="currentColor">
+    <text x="320" y="70" font-weight="700">Presentation</text>
+    <text x="320" y="92" opacity="0.75">The Lambda handler. Turns JSON into queries.</text>
+    <text x="320" y="140" font-weight="700">Application</text>
+    <text x="320" y="162" opacity="0.75">Entities, rules, queries and validation.</text>
+    <text x="320" y="210" font-weight="700">Infrastructure</text>
+    <text x="320" y="232" opacity="0.75">SQLite, EF Core and the repositories.</text>
+  </g>
+</svg>
+
+1. **Presentation** exposes the Application layer as an AWS Lambda handler. It builds the service provider once per container, opens a new scope for each invocation, sends a query through Mediator and maps the result into its response model.
+2. **Application** owns the domain and the business logic. Commands and queries are validated and handled here, and each domain type has its own repository interface. Application doesn't care what fulfils those contracts, as long as something does.
+3. **Infrastructure** owns the data. It implements the repository interfaces and maps its own data models onto the Application entities, so persistence details don't leak upwards.
+
+There's a little CQRS in the style of the commands and queries, but reads and writes use the same database underneath. CQRS-curious, if you like.
+
+## The one rule we bend
+
+In textbook Clean Architecture, Presentation never references Infrastructure. Here it does, so it can wire up dependency injection without a fourth project whose only job is to call two methods.
+
+To keep that from turning into a free-for-all, every class in Infrastructure is `internal`. Presentation can call `AddInfrastructure` and nothing else. If you try to new up a repository from the handler, the compiler will politely decline.
+
+## What happens on an invocation
+
+<svg class="cl-diagram" viewBox="0 0 640 120" role="img" aria-label="Lambda calls the handler, which sends a query through Mediator to the validation behaviour, then the query handler, then the repository and SQLite.">
+  <defs>
+    <marker id="cl-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6E9A43" /></marker>
+  </defs>
+  <g font-size="13" font-weight="700" text-anchor="middle">
+    <rect x="4" y="34" width="104" height="52" rx="14" fill="#8DBA5A" /><text x="56" y="65" fill="#0B132A">Handler</text>
+    <rect x="132" y="34" width="104" height="52" rx="14" fill="#FBFAF8" /><text x="184" y="65" fill="#0B132A">Mediator</text>
+    <rect x="260" y="34" width="104" height="52" rx="14" fill="#FBFAF8" /><text x="312" y="65" fill="#0B132A">Validation</text>
+    <rect x="388" y="34" width="104" height="52" rx="14" fill="#FBFAF8" /><text x="440" y="65" fill="#0B132A">Query handler</text>
+    <rect x="516" y="34" width="120" height="52" rx="14" fill="#6E9A43" /><text x="576" y="65" fill="#FBFAF8">Repository</text>
+  </g>
+  <g stroke="#6E9A43" stroke-width="3" marker-end="url(#cl-arrow)">
+    <line x1="110" y1="60" x2="128" y2="60" /><line x1="238" y1="60" x2="256" y2="60" /><line x1="366" y1="60" x2="384" y2="60" /><line x1="494" y1="60" x2="512" y2="60" />
+  </g>
+  <g font-size="12" fill="currentColor" opacity="0.7" text-anchor="middle">
+    <text x="56" y="108">Presentation</text><text x="312" y="108">Application</text><text x="576" y="108">Infrastructure</text>
+  </g>
+</svg>
+
+1. Lambda deserialises the request with the source-generated serializer and calls a method on `Handler`.
+2. The handler opens a dependency injection scope and sends a query through [Mediator](https://github.com/martinothamar/Mediator), with a cancellation token that fires when the invocation runs out of time.
+3. The `ValidationBehaviour` runs every FluentValidation validator for the query. Any failure stops here with a `ValidationException`.
+4. The query handler calls a repository interface.
+5. The repository in Infrastructure runs the query against SQLite with Entity Framework Core and maps the results back to Application entities.
+6. The handler maps the entities to its response models with [Mapperly](https://mapperly.riok.app), and Lambda serialises the response.
+
+<Aside type="tip" title="Same middle, different outside">
+  Application and Infrastructure are identical in all five Clean templates. Only Presentation changes. See [the family](../../family/).
+</Aside>

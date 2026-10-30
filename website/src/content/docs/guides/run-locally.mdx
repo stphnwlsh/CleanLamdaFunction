@@ -1,0 +1,83 @@
+---
+title: Run it locally
+description: Build the container image, invoke each function, run the tests and stamp a version.
+sidebar:
+  order: 2
+---
+
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+The image is built on the [AWS Lambda .NET base image](https://gallery.ecr.aws/lambda/dotnet), which includes the Lambda runtime interface emulator. Your function runs locally exactly the way Lambda runs it, just with fewer invoices.
+
+## Build and run
+
+<Tabs syncKey="runner">
+  <TabItem label="Docker Compose">
+    ```bash
+    docker compose up -d --build
+    ```
+
+    Compose builds the `run` stage, publishes port 9000 and turns on sample data. Shut it down with `docker compose down`.
+  </TabItem>
+  <TabItem label="Docker">
+    ```bash
+    docker build . --target run --tag acme-reviews:local
+    docker run --rm -p 9000:8080 -e Database__SeedSampleData=true acme-reviews:local
+    ```
+  </TabItem>
+</Tabs>
+
+Then invoke it from another terminal:
+
+```bash
+curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"limit":5}'
+```
+
+## Try the other functions
+
+The image runs `GetMovies` by default. The same handler also has `GetAuthors` and `GetReviews`. Pass the function's full handler name to `docker run` to start a different one.
+
+```bash
+docker run --rm -p 9000:8080 -e Database__SeedSampleData=true acme-reviews:local \
+  "Presentation::Acme.Reviews.Presentation.LambdaFunction.Handler::GetReviews"
+
+curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" \
+  -d '{"movieId":"e159975e-4e6a-1ffd-713e-1eb9d8d4a593","limit":2}'
+```
+
+The sample data uses a fixed seed, so that movie id is the same on every machine. See the [function reference](../../reference/functions/) for every request and response.
+
+## Run the tests
+
+```bash
+dotnet test
+```
+
+Each test builds its own in-memory SQLite database from the migrations and the same fixed seed. No test can change what another one sees, and nothing touches the database file in `/tmp`.
+
+## Run just one part of the Dockerfile
+
+The `Dockerfile` has a stage for each job, so you can build only what you need.
+
+| Stage | What it does |
+| --- | --- |
+| `build` | Restores and builds the solution |
+| `test` | Runs every test with coverage |
+| `coverage` | Exports the coverage report to your machine |
+| `publish` | Publishes the Presentation project |
+| `run` | The Lambda image you deploy |
+
+```bash
+docker build . --target coverage --output type=local,dest=out
+```
+
+## Stamp a version
+
+```bash
+docker build . --target run --tag acme-reviews:latest \
+  --build-arg VERSION_PREFIX=1.2.3 --build-arg VERSION_SUFFIX=beta
+```
+
+<Aside type="tip" title="Stuck?">
+  If `curl` hangs, the container is probably still applying migrations. Give it a second. If it says connection refused, check that port 9000 isn't busy with something else you forgot about.
+</Aside>

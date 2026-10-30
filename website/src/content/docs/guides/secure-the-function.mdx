@@ -1,0 +1,18 @@
+---
+title: Secure the function
+description: Who can invoke the function, and how to put it behind an API with bearer tokens.
+sidebar:
+  order: 6
+---
+
+The function is invoked directly, so there's no bearer token for it to check. AWS IAM decides who can call it. Think of IAM as the bouncer and your function as the band. The band doesn't check tickets.
+
+## Invoked by other AWS services
+
+Only principals allowed `lambda:InvokeFunction` on the function can invoke it. Grant that through an IAM policy on the caller, or through the function's resource-based policy for services like EventBridge, SQS or S3. Keep it to the callers that need it. "Everyone in the account" is not a security model.
+
+## Called over HTTP with tokens
+
+Put the function behind an [API Gateway HTTP API with a JWT authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-jwt-authorizer.html). API Gateway validates the token before the function runs, so bad requests never cost you an invocation, and the function itself stays the same.
+
+The sibling templates for HTTP, [Clean Minimal API](https://github.com/stphnwlsh/CleanMinimalApi) and [Clean Web API](https://github.com/stphnwlsh/CleanWebApi), have optional bearer token checking built in if you'd rather run a web API than a function.

@@ -1,0 +1,42 @@
+---
+title: Why it's built this way
+description: The choices behind the template, and what we'd tell you if you asked over a coffee.
+sidebar:
+  order: 2
+---
+
+Every template is a pile of opinions. Here are ours, so you can disagree with them on purpose rather than by accident.
+
+## Container image, not a zip
+
+A container image gives you the same artefact on your laptop, in CI and in AWS, and the base image includes the runtime emulator, so local testing is just `docker run`. It also gives you up to 10 GB to play with instead of 250 MB. The trade-off is a slightly slower first deploy while the image uploads.
+
+## Source generators everywhere
+
+Lambda bills you while your function wakes up, so the template avoids reflection where it can:
+
+- **JSON** uses the source-generated Lambda serializer.
+- **[Mediator](https://github.com/martinothamar/Mediator)** generates its dispatch code at build time.
+- **[Mapperly](https://mapperly.riok.app)** generates mapping code at build time, and you can read exactly what it wrote.
+
+As a bonus, MediatR and AutoMapper both moved to commercial licences in 2025, and this template didn't have to care.
+
+## FluentValidation in a pipeline behaviour
+
+Validation runs once, in one place, before any handler. Handlers only ever see valid requests, which keeps them short and keeps tests honest.
+
+## SQLite in /tmp
+
+The template needs a database that works in a container, on a laptop and in Lambda without any setup. SQLite in `/tmp` does that, with [real caveats](../../guides/database/). It's there to show the shape of Infrastructure, not to be your production database.
+
+## Infrastructure is internal
+
+The one rule we bend is letting Presentation reference Infrastructure for dependency injection. Making every Infrastructure class `internal` means the compiler enforces the boundary instead of a code reviewer having a bad day.
+
+## Strict builds
+
+`Directory.Build.props` turns on code style and the recommended analyzers for every project, and warnings fail the build. `Directory.Packages.props` keeps every package version in one place. It's annoying for about a day and then you never want to go back.
+
+## Tests that don't share
+
+Every test class gets its own in-memory SQLite database, built from the real migrations and the same fixed seed. Tests can run in any order, in parallel, forever, and still agree with each other.

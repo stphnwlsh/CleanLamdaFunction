@@ -1,0 +1,29 @@
+---
+title: Template options
+description: The options dotnet new accepts for this template, and what they change.
+sidebar:
+  order: 2
+---
+
+```bash
+dotnet new cleanlambdafunction --name <NAME> [--authorName <AUTHOR>] [--output <PATH>]
+```
+
+| Option | Default | What it changes |
+| --- | --- | --- |
+| `--name`, `-n` | The current folder's name | Replaces `CleanLambdaFunction` in every namespace, project, file and folder name, and names the output folder |
+| `--authorName` | `Stephen Walsh` | Sets the `Authors` and `Copyright` of the Presentation project, so the assembly credits you instead of me |
+| `--output`, `-o` | A folder named after `--name` | Where the solution is created |
+
+The usual `dotnet new` options such as `--dry-run` and `--force` work too. Run `dotnet new cleanlambdafunction --help` for the full list.
+
+## Install, update and remove
+
+| Task | Command |
+| --- | --- |
+| Install | `dotnet new install CleanLambdaFunction.Template` |
+| Check for updates | `dotnet new update --check-only` |
+| Update | `dotnet new update` |
+| Remove | `dotnet new uninstall CleanLambdaFunction.Template` |
+
+New versions are published on the 1st of each month when something has changed. See the [releases](https://github.com/stphnwlsh/CleanLamdaFunction/releases) for what's new.

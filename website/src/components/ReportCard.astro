@@ -1,0 +1,28 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+
+interface Check {
+  name: string;
+  icon: Parameters<typeof Icon>[0]['name'];
+  grade: string;
+  what: string;
+  href: string;
+}
+
+const { checks } = Astro.props as { checks: Check[] };
+---
+
+<div class="cl-report not-content">
+  {
+    checks.map((c) => (
+      <div>
+        <h3>
+          <Icon name={c.icon} />
+          <a href={c.href}>{c.name}</a>
+          <span class="cl-grade" data-kind={c.grade}>{c.grade}</span>
+        </h3>
+        <p>{c.what}</p>
+      </div>
+    ))
+  }
+</div>

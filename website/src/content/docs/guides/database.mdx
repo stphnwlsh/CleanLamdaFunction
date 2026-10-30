@@ -1,0 +1,44 @@
+---
+title: Work with the database
+description: Where the SQLite database lives, how sample data works, and how to add a migration or swap the database out.
+sidebar:
+  order: 4
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+The function keeps its data in a SQLite file at `/tmp/movie-reviews.db`, because `/tmp` is the only place Lambda lets you write.
+
+<Aside type="caution" title="Your data has the memory of a goldfish">
+  `/tmp` belongs to one Lambda execution environment. When AWS recycles it, the database goes too, and two warm instances never see each other's data. That's fine for a template and a demo. For anything real, point Infrastructure at a proper database.
+</Aside>
+
+## When the database is created
+
+Every time a container starts, the handler applies any pending Entity Framework Core migrations. If `Database__SeedSampleData` is `true` and the database is empty, it also seeds the sample movies, authors and reviews. Docker Compose turns that on. It's off everywhere else, so a deployed function never starts life full of fake reviews.
+
+## Use a different connection string
+
+Set `ConnectionStrings__MovieReviews`. To keep everything in memory:
+
+```bash
+docker run --rm -p 9000:8080 \
+  -e ConnectionStrings__MovieReviews="Data Source=MovieReviews;Mode=Memory;Cache=Shared" \
+  -e Database__SeedSampleData=true \
+  acme-reviews:local
+```
+
+## Add a migration
+
+After you change the data model in `src/Infrastructure`:
+
+```bash
+dotnet tool install --global dotnet-ef
+dotnet ef migrations add AddDirectors --project ./src/Infrastructure --output-dir Databases/MovieReviews/Migrations
+```
+
+The next container start applies it.
+
+## Swap SQLite for something real
+
+Everything database-shaped lives in Infrastructure, and every class there is `internal`. To move to DynamoDB, Aurora or anything else, implement the repository interfaces from Application (`IMoviesRepository`, `IAuthorsRepository` and `IReviewsRepository`) against the new store and register them in `Infrastructure/DependencyInjection.cs`. Application and Presentation don't need to know it happened. That's the whole sales pitch of Clean Architecture in one paragraph.

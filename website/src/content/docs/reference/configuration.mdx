@@ -1,0 +1,37 @@
+---
+title: Configuration
+description: Environment variables, Docker build arguments and Lambda deployment defaults.
+sidebar:
+  order: 3
+---
+
+## Environment variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `ConnectionStrings__MovieReviews` | `Data Source=/tmp/movie-reviews.db` | The SQLite connection string |
+| `Database__SeedSampleData` | `false` | When `true`, seeds sample data into an empty database. Anything else, including no value, means no |
+
+## Docker build arguments
+
+| Argument | Default | Description |
+| --- | --- | --- |
+| `VERSION_PREFIX` | `1.0.0.0` | The version stamped into the assemblies |
+| `VERSION_SUFFIX` | none | A prerelease label added to the version |
+| `ENVIRONMENT` | `docker` | Sets `DOTNET_ENVIRONMENT` during the build and tests |
+| `BASE_IMAGE_REPO`, `BASE_IMAGE_BUILD`, `BASE_IMAGE_BUILD_TAG` | `mcr.microsoft.com`, `dotnet/sdk`, `10.0-alpine` | The SDK image used to build and test |
+| `BASE_IMAGE_RUNTIME_REPO`, `BASE_IMAGE_RUNTIME`, `BASE_IMAGE_RUNTIME_TAG` | `public.ecr.aws`, `lambda/dotnet`, `10` | The Lambda base image the function runs on |
+
+## Lambda deployment defaults
+
+`src/Presentation/aws-lambda-tools-defaults.json` holds the defaults for `dotnet lambda deploy-function`.
+
+| Setting | Default | Description |
+| --- | --- | --- |
+| `profile` | empty | Your AWS CLI profile |
+| `region` | empty | The AWS region to deploy to |
+| `configuration` | `Release` | The build configuration |
+| `package-type` | `image` | Deploy as a container image |
+| `function-memory-size` | `256` | Memory in MB |
+| `function-timeout` | `30` | Timeout in seconds |
+| `image-command` | `...Handler::GetMovies` | The handler method the function runs |
