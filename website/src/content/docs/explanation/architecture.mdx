@@ -14,8 +14,8 @@ This solution is loosely based on Clean Architecture. It's by no means perfect, 
 Application sits in the middle and depends on nothing. Presentation and Infrastructure sit around the outside, and both depend on Application. The outside can change without the middle noticing.
 
 <svg class="cl-diagram" viewBox="0 0 640 300" role="img" aria-label="Application sits in the middle. Presentation and Infrastructure sit around the outside and both depend inwards on Application.">
-  <path d="M150,20 A130,130 0 0,0 150,280 L150,230 A80,80 0 0,1 150,70 Z" fill="#F5A524" />
-  <path d="M150,20 A130,130 0 0,1 150,280 L150,230 A80,80 0 0,0 150,70 Z" fill="#6E9A43" />
+  <path d="M150,20 A130,130 0 0,0 150,280 L150,230 A80,80 0 0,1 150,70 Z" fill="#8DBA5A" />
+  <path d="M150,20 A130,130 0 0,1 150,280 L150,230 A80,80 0 0,0 150,70 Z" fill="#4D6B2C" />
   <circle cx="150" cy="150" r="78" fill="#FBFAF8" />
   <text x="45" y="150" transform="rotate(-90 45 150)" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" letter-spacing="2" fill="#0B132A">PRESENTATION</text>
   <text x="255" y="150" transform="rotate(90 255 150)" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" letter-spacing="2" fill="#FBFAF8">INFRASTRUCTURE</text>
@@ -54,7 +54,7 @@ To keep that from turning into a free-for-all, every class in Infrastructure is 
     <marker id="cl-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6E9A43" /></marker>
   </defs>
   <g font-size="13" font-weight="700" text-anchor="middle">
-    <rect x="4" y="34" width="104" height="52" rx="14" fill="#F5A524" /><text x="56" y="65" fill="#0B132A">Handler</text>
+    <rect x="4" y="34" width="104" height="52" rx="14" fill="#8DBA5A" /><text x="56" y="65" fill="#0B132A">Handler</text>
     <rect x="132" y="34" width="104" height="52" rx="14" fill="#FBFAF8" /><text x="184" y="65" fill="#0B132A">Mediator</text>
     <rect x="260" y="34" width="104" height="52" rx="14" fill="#FBFAF8" /><text x="312" y="65" fill="#0B132A">Validation</text>
     <rect x="388" y="34" width="104" height="52" rx="14" fill="#FBFAF8" /><text x="440" y="65" fill="#0B132A">Query handler</text>

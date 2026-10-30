@@ -1,7 +1,6 @@
 /*
  * Clean templates look and feel.
- * Every template shares the ink, leaf and paper colours. Only --flavour changes per template,
- * the same way only the Presentation layer changes between them.
+ * Every template shares the same logo and the same ink, leaf and paper colours.
  */
 
 :root {
@@ -9,7 +8,9 @@
   --ink-2: #1c2838;
   --leaf: #6e9a43;
   --paper: #fbfaf8;
-  --flavour: #f5a524; /* Lambda amber. Minimal API #4cc38a, Web API #5b9bf8, GraphQL #e83fae, MCP #a88bfa */
+  --leaf-light: #8dba5a;
+  --flavour: var(--leaf-light);
+  --cl-mark-ring: var(--paper);
 
   --sl-font: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --sl-font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
@@ -35,6 +36,7 @@
 }
 
 :root[data-theme='light'] {
+  --cl-mark-ring: var(--ink);
   --sl-color-accent-low: #dcebcb;
   --sl-color-accent: #4d6b2c;
   --sl-color-accent-high: #2c3f18;
@@ -101,9 +103,6 @@ h1#_top {
   max-width: 34rem;
 }
 
-.hero img {
-  filter: drop-shadow(0 30px 60px rgb(0 0 0 / 0.35));
-}
 
 /* Concentric rings behind the splash pages, echoing the logo. */
 [data-has-hero] .main-frame,
@@ -115,7 +114,7 @@ h1#_top {
       transparent 9.5rem 14rem,
       color-mix(in srgb, var(--leaf) 6%, transparent) 14rem 14.5rem,
       transparent 14.5rem 19rem,
-      color-mix(in srgb, var(--flavour) 5%, transparent) 19rem 19.5rem,
+      color-mix(in srgb, var(--leaf) 4%, transparent) 19rem 19.5rem,
       transparent 19.5rem
     );
   background-repeat: no-repeat;
@@ -133,7 +132,7 @@ h1#_top {
   transform: translateY(-2px);
 }
 
-/* Cards lift on hover and wear a flavour stripe. */
+/* Cards lift on hover. */
 .card {
   border-radius: 1rem;
   border-color: var(--sl-color-gray-5);
@@ -151,7 +150,7 @@ h1#_top {
 }
 
 .card:nth-child(4n + 1) .icon { background: var(--leaf); color: var(--paper); }
-.card:nth-child(4n + 2) .icon { background: var(--flavour); color: var(--ink); }
+.card:nth-child(4n + 2) .icon { background: var(--leaf-light); color: var(--ink); }
 .card:nth-child(4n + 3) .icon { background: var(--paper); color: var(--ink); }
 .card:nth-child(4n + 4) .icon { background: var(--sl-color-accent-low); color: var(--sl-color-accent-high); }
 
@@ -315,22 +314,15 @@ pre {
   }
 }
 
-/* The spinning rings in the hero. */
-.cl-hero-rings {
+/* The logo in the hero. The coils turn, slowly. */
+.cl-hero-mark {
   width: 100%;
-  max-width: 24rem;
-  font-family: var(--cl-font-display);
-  overflow: visible;
+  max-width: 22rem;
 }
 
 .cl-spin {
-  transform-origin: 200px 200px;
-  animation: cl-spin 80s linear infinite;
-}
-
-.cl-spin-back {
-  animation-duration: 60s;
-  animation-direction: reverse;
+  transform-origin: 256px 256px;
+  animation: cl-spin 90s linear infinite;
 }
 
 @keyframes cl-spin {
