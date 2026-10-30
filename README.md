@@ -28,7 +28,7 @@ The full documentation, with guides, a function reference and the reasoning behi
 - [Related templates](#related-templates)
 - [Resources](#resources)
 - [Contributing](#contributing)
-- [Support](#support)
+- [The team](#the-team)
 - [License](#license)
 
 ## Getting started
@@ -145,13 +145,19 @@ This template wouldn't exist without these resources. If you're on your own lear
 
 Bug reports, ideas and pull requests are welcome, and typo fixes are welcome with open arms. Please read the [contributing guide](CONTRIBUTING.md) and the [code of conduct](CODE_OF_CONDUCT.md) first. To report a security vulnerability, follow the [security policy](SECURITY.md) instead of opening an issue.
 
-## Support
+## The team
 
-If this template saves you time, please consider [sponsoring me on GitHub](https://github.com/sponsors/stphnwlsh). It helps me keep all five templates up to date with each .NET release, and it keeps the coffee flowing, which is the real dependency here.
+This template is part of [Lean Mean Clean Apps](https://leanmeancleanapps.github.io/), a small family of .NET templates built and looked after in spare time.
 
-[![Please sponsor me](docs/sponsor.jpg)](https://github.com/sponsors/stphnwlsh)
+| | Who | What they do | Find them |
+| --- | --- | --- | --- |
+| <img src="https://github.com/stphnwlsh.png?size=96" width="48" alt=""> | **Stephen Walsh** | Maintainer. Builds every template, keeps them current with each .NET release, and drinks the coffee. | [GitHub](https://github.com/stphnwlsh) · [LinkedIn](https://www.linkedin.com/in/stphnwlsh) · [Medium](https://stphnwlsh.medium.com) · [Website](https://stphnwlsh.github.io) |
 
-You can also connect with me on [LinkedIn](https://www.linkedin.com/in/stphnwlsh), follow me on [Medium](https://stphnwlsh.medium.com) or [GitHub](https://github.com/stphnwlsh). For help using the template, see [SUPPORT.md](SUPPORT.md).
+Want your name in this table? Pull requests are the way in, so start with the [contributing guide](CONTRIBUTING.md). For help using the template, see [SUPPORT.md](SUPPORT.md).
+
+### Support the work
+
+If this template saves you time, please consider [sponsoring Stephen on GitHub](https://github.com/sponsors/stphnwlsh). It keeps all five templates current with each .NET release, and it keeps the coffee flowing, which is the real dependency here.
 
 ## License
 
