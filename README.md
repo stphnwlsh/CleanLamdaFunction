@@ -16,7 +16,7 @@ A `dotnet new` template for an [AWS Lambda function](https://docs.aws.amazon.com
 
 It's one of five [Lean Mean Clean Apps](https://leanmeancleanapps.github.io/) templates that share the same Application and Infrastructure layers and differ only in how they present them. Same genes, different haircuts. See [Related templates](#related-templates).
 
-The full documentation, with guides, a function reference and the reasoning behind the design, lives at **[stphnwlsh.github.io/CleanLamdaFunction](https://stphnwlsh.github.io/CleanLamdaFunction/)**. This README is the short version for people who skim. We see you.
+The full documentation, with guides, a reference and the reasoning behind every opinion in here, lives at **[leanmeancleanapps.github.io/lambda](https://leanmeancleanapps.github.io/lambda/)**. This README is the short version for people who skim. We see you.
 
 ## Contents
 
@@ -28,7 +28,7 @@ The full documentation, with guides, a function reference and the reasoning behi
 - [Related templates](#related-templates)
 - [Resources](#resources)
 - [Contributing](#contributing)
-- [Support](#support)
+- [The team](#the-team)
 - [License](#license)
 
 ## Getting started
@@ -109,9 +109,9 @@ The one deliberate break from Clean Architecture is that the Presentation projec
 
 ## Releases
 
-The template is released once a month. On the 1st, at 9am US Central time, the pipeline checks for changes since the last release. If anything outside `.github/` and `website/` has changed, it builds and tests `main`, publishes the new version to [NuGet](https://www.nuget.org/packages/CleanLambdaFunction.Template) and creates a [GitHub release](https://github.com/stphnwlsh/CleanLamdaFunction/releases) with notes for every pull request merged since the previous one. If nothing has changed, there's no release that month, because nobody needs a new version number for the same code. Dependency updates arrive on the 15th, so they're merged in time for the next release.
+The template is released once a month. On the 1st, at 9am US Central time, the pipeline checks for changes since the last release. If anything outside `.github/` has changed, it builds and tests `main`, publishes the new version to [NuGet](https://www.nuget.org/packages/CleanLambdaFunction.Template) and creates a [GitHub release](https://github.com/stphnwlsh/CleanLamdaFunction/releases) with notes for every pull request merged since the previous one. If nothing has changed, there's no release that month, because nobody needs a new version number for the same code. Dependency updates arrive on the 15th, so they're merged in time for the next release.
 
-Versions keep the `YYYY.MM.DD.RUN` format. Up to the end of October 2026, every merge to `main` was released, so the older releases are much smaller. To release outside the monthly cycle, run the **Build Pipeline** workflow by hand. Tick **force** to release even when only `.github/` or `website/` has changed.
+Versions keep the `YYYY.MM.DD.RUN` format. Up to the end of October 2026, every merge to `main` was released, so the older releases are much smaller. To release outside the monthly cycle, run the **Build Pipeline** workflow by hand. Tick **force** to release even when only `.github/` has changed.
 
 To update an installed template to the latest release:
 
@@ -126,9 +126,9 @@ All five templates share the same Application and Infrastructure layers, tests, 
 | Template | Presentation | Package |
 | --- | --- | --- |
 | [Clean Minimal API](https://github.com/stphnwlsh/CleanMinimalApi) | ASP.NET Core Minimal APIs | [CleanMinimalApi.Template](https://www.nuget.org/packages/CleanMinimalApi.Template) |
-| [Clean Web API](https://github.com/stphnwlsh/CleanWebApi) | ASP.NET Core controllers | [CleanWebApi.Template](https://www.nuget.org/packages/CleanWebApi.Template) |
-| [Clean GraphQL API](https://github.com/stphnwlsh/CleanGraphQLApi) | GraphQL with Hot Chocolate | [CleanGraphQLApi.Template](https://www.nuget.org/packages/CleanGraphQLApi.Template) |
 | [Clean Model Context Protocol](https://github.com/stphnwlsh/CleanModelContextProtocol) | Model Context Protocol server | [CleanModelContextProtocol.Template](https://www.nuget.org/packages/CleanModelContextProtocol.Template) |
+| [Clean GraphQL API](https://github.com/stphnwlsh/CleanGraphQLApi) | GraphQL with Hot Chocolate | [CleanGraphQLApi.Template](https://www.nuget.org/packages/CleanGraphQLApi.Template) |
+| [Clean Web API](https://github.com/stphnwlsh/CleanWebApi) | ASP.NET Core controllers | [CleanWebApi.Template](https://www.nuget.org/packages/CleanWebApi.Template) |
 | **Clean Lambda Function** (this repo) | AWS Lambda function | [CleanLambdaFunction.Template](https://www.nuget.org/packages/CleanLambdaFunction.Template) |
 
 ## Resources
@@ -145,14 +145,20 @@ This template wouldn't exist without these resources. If you're on your own lear
 
 Bug reports, ideas and pull requests are welcome, and typo fixes are welcome with open arms. Please read the [contributing guide](CONTRIBUTING.md) and the [code of conduct](CODE_OF_CONDUCT.md) first. To report a security vulnerability, follow the [security policy](SECURITY.md) instead of opening an issue.
 
-## Support
+## The team
 
-If this template saves you time, please consider [sponsoring me on GitHub](https://github.com/sponsors/stphnwlsh). It helps me keep all five templates up to date with each .NET release, and it keeps the coffee flowing, which is the real dependency here.
+This template is part of [Lean Mean Clean Apps](https://leanmeancleanapps.github.io/), a small family of .NET templates built and looked after in spare time.
 
-[![Please sponsor me](docs/sponsor.jpg)](https://github.com/sponsors/stphnwlsh)
+| | Who | What they do | Find them |
+| --- | --- | --- | --- |
+| <img src="https://github.com/stphnwlsh.png?size=96" width="48" alt=""> | **Stephen Walsh** | Maintainer. Builds every template, keeps them current with each .NET release, and drinks the coffee. | [GitHub](https://github.com/stphnwlsh) · [LinkedIn](https://www.linkedin.com/in/stphnwlsh) · [Medium](https://stphnwlsh.medium.com) · [Website](https://stphnwlsh.github.io) |
 
-You can also connect with me on [LinkedIn](https://www.linkedin.com/in/stphnwlsh), follow me on [Medium](https://stphnwlsh.medium.com) or [GitHub](https://github.com/stphnwlsh). For help using the template, see [SUPPORT.md](SUPPORT.md).
+Want your name in this table? Pull requests are the way in, so start with the [contributing guide](CONTRIBUTING.md). For help using the template, see [SUPPORT.md](SUPPORT.md).
+
+### Support the work
+
+If this template saves you time, please consider [sponsoring the work on GitHub](https://github.com/sponsors/stphnwlsh). It keeps all five templates current with each .NET release, and it keeps the coffee flowing, which is the real dependency here.
 
 ## License
 
-Released under the [MIT License](LICENSE.md). Take it, change it, ship it. Just don't blame me for your cold starts.
+Released under the [MIT License](LICENSE.md). Take it, change it, ship it. Just don't blame us for your cold starts.

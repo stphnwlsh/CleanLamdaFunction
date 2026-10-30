@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
     inputs:
       force:
-        description: Release even if only .github/ or website/ has changed since the last release
+        description: Release even if only .github/ has changed since the last release
         type: boolean
         default: false
 
@@ -356,12 +356,12 @@ jobs:
           elif [[ "$FORCE" == 'true' ]]; then
             echo "Forced release"
             PUBLISH=true
-          elif git diff --quiet "$LATEST" HEAD -- . ':(exclude).github' ':(exclude)website'; then
-            echo "Nothing outside .github/ and website/ has changed since $LATEST, skipping the release"
+          elif git diff --quiet "$LATEST" HEAD -- . ':(exclude).github'; then
+            echo "Nothing outside .github/ has changed since $LATEST, skipping the release"
             PUBLISH=false
           else
             echo "Changes since $LATEST:"
-            git diff --stat "$LATEST" HEAD -- . ':(exclude).github' ':(exclude)website'
+            git diff --stat "$LATEST" HEAD -- . ':(exclude).github'
             PUBLISH=true
           fi
 

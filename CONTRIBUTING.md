@@ -2,7 +2,7 @@
 
 Thanks for stopping by. Bug reports, ideas, documentation fixes and pull requests are all welcome, roughly in that order of how quickly they get a reply.
 
-This is a personal open source project, built and looked after by [Stephen Walsh](https://github.com/stphnwlsh) in spare time, with strong coffee and a healthy disregard for ceremony. There's one maintainer, so the fastest way to get something changed is to make it easy to say yes to.
+This is a [Lean Mean Clean Apps](https://leanmeancleanapps.github.io/) project, built and looked after in spare time with strong coffee and a healthy disregard for pomp and ceremony. The team is one person at the moment, so replies are best effort, and the fastest way to get something changed is to make it easy to say yes to. If you'd like to make it two people, pull requests are how that starts.
 
 ## Before you start
 
@@ -17,8 +17,8 @@ This repository is one of five [Lean Mean Clean Apps](https://leanmeancleanapps.
 
 - [Clean Minimal API](https://github.com/stphnwlsh/CleanMinimalApi)
 - [Clean Model Context Protocol](https://github.com/stphnwlsh/CleanModelContextProtocol)
-- [Clean Web API](https://github.com/stphnwlsh/CleanWebApi)
 - [Clean GraphQL API](https://github.com/stphnwlsh/CleanGraphQLApi)
+- [Clean Web API](https://github.com/stphnwlsh/CleanWebApi)
 - [Clean Lambda Function](https://github.com/stphnwlsh/CleanLamdaFunction)
 
 If your change touches the Application or Infrastructure layers, their tests, the build pipeline or the repository setup, it needs to be made in all five. Mention that in your pull request and the maintainer will carry it across. You fix it once, the family gets it five times.
@@ -35,7 +35,7 @@ If your change touches the Application or Infrastructure layers, their tests, th
    ```
 
 1. Run the project as described in [docs/RUN.md](docs/RUN.md).
-1. To work on the docs site, see [website/README.md](website/README.md).
+1. The docs site lives in the [Lean Mean Clean Apps site repository](https://github.com/LeanMeanCleanApps/leanmeancleanapps.github.io), so send docs changes there.
 
 ### Testing the template itself
 
