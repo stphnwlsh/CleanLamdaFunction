@@ -1,0 +1,48 @@
+---
+title: Project structure
+description: What every folder in a new solution is for.
+sidebar:
+  order: 4
+---
+
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+- src/
+  - Application/ the domain and the rules
+    - Authors/ queries and entities for authors
+    - Movies/ queries and entities for movies
+    - Reviews/ queries, commands and entities for reviews
+    - Versions/ the version query
+    - Common/
+      - Behaviours/ the validation pipeline behaviour
+      - Exceptions/ NotFoundException
+      - Paging/ shared paging rules
+    - DependencyInjection.cs
+  - Infrastructure/ the data
+    - Databases/MovieReviews/ the EF Core context, models, mapping, migrations and repository
+    - DependencyInjection.cs
+  - Presentation/ the Lambda function
+    - LambdaFunction/
+      - LambdaFunction.cs the handler and its functions
+      - Models/ requests and responses
+      - Mapping/ Mapperly mapper from Application to Presentation
+      - Serialization/ the source-generated JSON context
+    - aws-lambda-tools-defaults.json
+- tests/
+  - Application.Tests.Unit/
+  - Infrastructure.Tests.Integration/
+  - Presentation.Tests.Integration/
+- docs/RUN.md
+- Directory.Build.props build rules and analyzers for every project
+- Directory.Packages.props every package version, in one place
+- Dockerfile
+- docker-compose.yml
+- global.json
+</FileTree>
+
+| Project | References | Notes |
+| --- | --- | --- |
+| Presentation | Application, Infrastructure | References Infrastructure only to wire up dependency injection |
+| Application | none | Owns the entities, the repository interfaces and the rules |
+| Infrastructure | Application | Every class is `internal` |

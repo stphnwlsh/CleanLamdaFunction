@@ -1,0 +1,151 @@
+---
+title: Functions
+description: Every function the handler exposes, with its request, response and errors.
+sidebar:
+  order: 1
+---
+
+All three functions live on `Handler` in `src/Presentation/LambdaFunction/LambdaFunction.cs`. Requests are read case-insensitively. Responses use the property names shown here, and properties with no value are left out.
+
+The image runs `GetMovies` unless you pass a different handler name:
+
+```text
+Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::GetMovies
+Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::GetAuthors
+Presentation::CleanLambdaFunction.Presentation.LambdaFunction.Handler::GetReviews
+```
+
+In your own solution, `CleanLambdaFunction` is replaced by the name you chose.
+
+## GetMovies
+
+Lists movies ordered by title, one page at a time, optionally only those whose title contains a search term.
+
+### Request
+
+| Property | Type | Default | Rules |
+| --- | --- | --- | --- |
+| `query` | string | none | Up to 100 characters. Matches the title, ignoring case |
+| `offset` | integer | `0` | 0 or more |
+| `limit` | integer | `10` | 1 to 50 |
+
+```json
+{ "query": "global", "offset": 0, "limit": 2 }
+```
+
+### Response
+
+A [page](#pages) of movies.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `Id` | guid | The movie's id |
+| `Title` | string | The movie's title |
+| `ReviewCount` | integer | How many reviews the movie has |
+| `AverageStars` | number | The average rating to one decimal place. Left out when there are no reviews |
+
+```json
+{
+  "Items": [
+    { "Id": "30fca414-247a-779e-105a-d81aa2506f58", "Title": "Assimilated global infrastructure", "ReviewCount": 1, "AverageStars": 1 },
+    { "Id": "c27d6600-79a6-9346-2595-a52b7f07dc3e", "Title": "Automated global alliance", "ReviewCount": 3, "AverageStars": 3.3 }
+  ],
+  "TotalCount": 2
+}
+```
+
+## GetAuthors
+
+Lists authors ordered by last name then first name, one page at a time, optionally only those whose name contains a search term.
+
+### Request
+
+The same as [GetMovies](#request). `query` matches anywhere in the full name, written first name then last name.
+
+### Response
+
+A [page](#pages) of authors.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `Id` | guid | The author's id |
+| `FirstName` | string | The author's first name |
+| `LastName` | string | The author's last name |
+| `ReviewCount` | integer | How many reviews the author has written |
+| `AverageStars` | number | The average rating they give. Left out when there are no reviews |
+
+```json
+{
+  "Items": [
+    { "Id": "01fa8b58-05d2-abd4-e55c-2633222dd0a5", "FirstName": "Jana", "LastName": "Auer", "ReviewCount": 10, "AverageStars": 2.6 },
+    { "Id": "1cc2ad51-61c5-63ee-dd6e-15308cfe6e51", "FirstName": "Caroline", "LastName": "Bins", "ReviewCount": 12, "AverageStars": 2.7 }
+  ],
+  "TotalCount": 15,
+  "NextOffset": 2
+}
+```
+
+## GetReviews
+
+Lists reviews ordered by movie then author, one page at a time, optionally only those of one movie, by one author, or both.
+
+### Request
+
+| Property | Type | Default | Rules |
+| --- | --- | --- | --- |
+| `movieId` | guid | none | Only reviews of this movie |
+| `authorId` | guid | none | Only reviews by this author |
+| `offset` | integer | `0` | 0 or more |
+| `limit` | integer | `10` | 1 to 50 |
+
+```json
+{ "movieId": "e159975e-4e6a-1ffd-713e-1eb9d8d4a593", "limit": 2 }
+```
+
+### Response
+
+A [page](#pages) of reviews.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `Id` | guid | The review's id |
+| `Stars` | integer | The rating, from 1 to 5 |
+| `ReviewedMovie` | object | The reviewed movie's `Id` and `Title`. Its `ReviewCount` is always 0 here, so use GetMovies for the real numbers |
+
+```json
+{
+  "Items": [
+    { "Id": "969cb90c-95ae-9189-1e52-0b38d34a911b", "Stars": 4, "ReviewedMovie": { "Id": "e159975e-4e6a-1ffd-713e-1eb9d8d4a593", "Title": "Assimilated disintermediate adapter", "ReviewCount": 0 } },
+    { "Id": "a5ebd747-0408-0a96-1af1-eb5cb93bc814", "Stars": 1, "ReviewedMovie": { "Id": "e159975e-4e6a-1ffd-713e-1eb9d8d4a593", "Title": "Assimilated disintermediate adapter", "ReviewCount": 0 } }
+  ],
+  "TotalCount": 6,
+  "NextOffset": 2
+}
+```
+
+## Pages
+
+Every function returns one page of results.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `Items` | array | The results on this page |
+| `TotalCount` | integer | The number of results across every page |
+| `NextOffset` | integer | The `offset` that fetches the next page. Left out on the last page |
+
+To read everything, start at `offset` 0 and keep sending the `NextOffset` back until it's missing.
+
+## Errors
+
+Errors come back in Lambda's standard error format, with the exception type in `errorType`.
+
+| `errorType` | When |
+| --- | --- |
+| `ValidationException` | A request breaks one of the rules above. `errorMessage` lists every rule it broke |
+| `NotFoundException` | A function that gets one thing by id, like the one in [Add a function](../../guides/add-a-function/), can't find it |
+| `TaskCanceledException` or `OperationCanceledException` | The invocation ran out of time and the handler stopped the work |
+
+```text
+Validation failed:
+ -- Limit: A limit must be between 1 and 50. Severity: Error
+```

@@ -1,0 +1,84 @@
+---
+title: Clean Lambda Function
+description: A .NET 10 dotnet new template for AWS Lambda, built with Clean Architecture minus the ceremony.
+template: splash
+hero:
+  title: Clean Architecture for AWS Lambda, minus the ceremony
+  tagline: A .NET 10 template that gives you a tested, layered Lambda function in two commands. Fewer layers than an onion, more than a sandwich.
+  image:
+    html: |
+      <svg class="cl-hero-rings" viewBox="0 0 400 400" role="img" aria-label="The Clean Lambda Function logo with spinning rings of text">
+        <defs>
+          <path id="cl-outer" d="M200,200 m-160,0 a160,160 0 1,1 320,0 a160,160 0 1,1 -320,0" />
+          <path id="cl-middle" d="M200,200 m-122,0 a122,122 0 1,1 244,0 a122,122 0 1,1 -244,0" />
+        </defs>
+        <circle cx="200" cy="200" r="182" fill="#6E9A43" />
+        <circle cx="200" cy="200" r="140" fill="#FBFAF8" />
+        <circle cx="200" cy="200" r="104" fill="#F5A524" />
+        <g class="cl-spin">
+          <text font-size="15" font-weight="700" letter-spacing="3" fill="#FBFAF8"><textPath href="#cl-outer" textLength="990" lengthAdjust="spacing">CLEAN · LEAN · MEAN · SERVERLESS · SPOTLESS · MOSTLY HARMLESS ·</textPath></text>
+        </g>
+        <g class="cl-spin cl-spin-back">
+          <text font-size="13" font-weight="700" letter-spacing="2.5" fill="#0B132A"><textPath href="#cl-middle" textLength="752" lengthAdjust="spacing">DOTNET NEW · DOCKER RUN · CURL · SHIP IT ·</textPath></text>
+        </g>
+        <g transform="translate(-56 -56)" stroke="#0B132A" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <path d="M212 184c22-6 34 4 42 22l54 126" />
+          <path d="M250 252l-44 80" />
+        </g>
+      </svg>
+  actions:
+    - text: Get started
+      link: getting-started/
+      icon: right-arrow
+    - text: View on GitHub
+      link: https://github.com/stphnwlsh/CleanLamdaFunction
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+import Family from '../../components/Family.astro';
+
+## Two commands and you're in business
+
+```bash
+dotnet new install CleanLambdaFunction.Template
+dotnet new cleanlambdafunction --name Acme.Reviews --authorName "Your Name"
+```
+
+That's a solution with three layers, three test projects, a Dockerfile and a CI pipeline. Now go and tell your team you've been working on it all week.
+
+## What's in the box
+
+<CardGrid>
+  <Card title="Lean Mean Clean Architecture" icon="puzzle">
+    Presentation, Application and Infrastructure, with one job each. Infrastructure is `internal`, so it can't sneak
+    into places it doesn't belong.
+  </Card>
+  <Card title="Cold starts, but quicker" icon="rocket">
+    Source-generated JSON, Mediator and Mapperly mean no reflection when Lambda wakes your function up.
+  </Card>
+  <Card title="Tested like it matters" icon="approve-check">
+    xUnit, Shouldly and a 95% coverage gate. Every test gets its own throwaway SQLite database, so nobody steps on
+    anybody's toes.
+  </Card>
+  <Card title="Runs on your laptop" icon="laptop">
+    The container image includes the Lambda runtime emulator. Build it, run it, `curl` it. No AWS account needed until
+    you're ready.
+  </Card>
+</CardGrid>
+
+## Pick your path
+
+<CardGrid>
+  <LinkCard title="Get started" description="Install the template and invoke your first function in about five minutes." href="getting-started/" />
+  <LinkCard title="Add a function" description="Expose a new query from the Application layer as a Lambda function." href="guides/add-a-function/" />
+  <LinkCard title="Function reference" description="Requests, responses and errors for every function." href="reference/functions/" />
+  <LinkCard title="How it's built" description="The pipeline, the coverage gate and the scanners keeping everyone honest." href="explanation/how-its-built/" />
+</CardGrid>
+
+## One of five
+
+The Clean templates share the same Application and Infrastructure layers, the same tests and the same pipeline. Only Presentation changes. Like a family, really. Same genes, different haircuts.
+
+<Family />

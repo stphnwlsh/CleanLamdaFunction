@@ -18,6 +18,11 @@ updates:
     patterns: ["*"]
     multi-ecosystem-group: "monthly-dependencies"
 
+  - package-ecosystem: "npm"
+    directory: "/website"
+    patterns: ["*"]
+    multi-ecosystem-group: "monthly-dependencies"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     patterns: ["*"]

@@ -1,0 +1,356 @@
+/*
+ * Clean templates look and feel.
+ * Every template shares the ink, leaf and paper colours. Only --flavour changes per template,
+ * the same way only the Presentation layer changes between them.
+ */
+
+:root {
+  --ink: #0b132a;
+  --ink-2: #1c2838;
+  --leaf: #6e9a43;
+  --paper: #fbfaf8;
+  --flavour: #f5a524; /* Lambda amber. Minimal API #4cc38a, Web API #5b9bf8, GraphQL #e83fae, MCP #a88bfa */
+
+  --sl-font: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --sl-font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --cl-font-display: 'Bricolage Grotesque Variable', var(--sl-font);
+
+  --sl-content-width: 46rem;
+  --sl-text-h1: 2.5rem;
+}
+
+/* Dark is the default, and it's ink, not grey. */
+:root {
+  --sl-color-accent-low: #1f3216;
+  --sl-color-accent: #8dba5a;
+  --sl-color-accent-high: #d6ebc0;
+  --sl-color-white: #fbfaf8;
+  --sl-color-gray-1: #e9ecf2;
+  --sl-color-gray-2: #c3cad8;
+  --sl-color-gray-3: #8c96ad;
+  --sl-color-gray-4: #5a6480;
+  --sl-color-gray-5: #2a3554;
+  --sl-color-gray-6: #141d38;
+  --sl-color-black: #0b132a;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #dcebcb;
+  --sl-color-accent: #4d6b2c;
+  --sl-color-accent-high: #2c3f18;
+  --sl-color-white: #0b132a;
+  --sl-color-gray-1: #1c2838;
+  --sl-color-gray-2: #2f3b52;
+  --sl-color-gray-3: #535d78;
+  --sl-color-gray-4: #8c96ad;
+  --sl-color-gray-5: #d9dce3;
+  --sl-color-gray-6: #efede6;
+  --sl-color-gray-7: #f6f4ef;
+  --sl-color-black: #fbfaf8;
+}
+
+::selection {
+  background: var(--flavour);
+  color: var(--ink);
+}
+
+/* Headings get the playful display face. */
+.sl-markdown-content :is(h1, h2, h3),
+h1#_top,
+.hero h1,
+.site-title {
+  font-family: var(--cl-font-display);
+  letter-spacing: -0.02em;
+}
+
+h1#_top {
+  font-weight: 800;
+}
+
+.site-title {
+  font-weight: 700;
+  gap: 0.6rem;
+}
+
+.site-title img {
+  height: 2.1rem;
+  width: auto;
+}
+
+/* Sidebar: the current page sits in a soft pill rather than a slab. */
+.sidebar-content a[aria-current='page'] {
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  padding-block: clamp(2.5rem, 7vw, 5rem);
+}
+
+.hero h1 {
+  font-weight: 800;
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
+  line-height: 1.02;
+}
+
+.hero .tagline {
+  font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+  color: var(--sl-color-gray-2);
+  max-width: 34rem;
+}
+
+.hero img {
+  filter: drop-shadow(0 30px 60px rgb(0 0 0 / 0.35));
+}
+
+/* Concentric rings behind the splash pages, echoing the logo. */
+[data-has-hero] .main-frame,
+.cl-splash-rings {
+  background-image: radial-gradient(
+      circle at 85% 12%,
+      transparent 0 9rem,
+      color-mix(in srgb, var(--leaf) 9%, transparent) 9rem 9.5rem,
+      transparent 9.5rem 14rem,
+      color-mix(in srgb, var(--leaf) 6%, transparent) 14rem 14.5rem,
+      transparent 14.5rem 19rem,
+      color-mix(in srgb, var(--flavour) 5%, transparent) 19rem 19.5rem,
+      transparent 19.5rem
+    );
+  background-repeat: no-repeat;
+}
+
+/* Buttons: round and a little bouncy. */
+.sl-link-button,
+.hero .action {
+  border-radius: 999px;
+  transition: transform 150ms ease;
+}
+
+.sl-link-button:hover,
+.hero .action:hover {
+  transform: translateY(-2px);
+}
+
+/* Cards lift on hover and wear a flavour stripe. */
+.card {
+  border-radius: 1rem;
+  border-color: var(--sl-color-gray-5);
+  background: color-mix(in srgb, var(--sl-color-gray-6) 70%, transparent);
+  transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--leaf);
+}
+
+.card .icon {
+  border-radius: 0.6rem;
+}
+
+.card:nth-child(4n + 1) .icon { background: var(--leaf); color: var(--paper); }
+.card:nth-child(4n + 2) .icon { background: var(--flavour); color: var(--ink); }
+.card:nth-child(4n + 3) .icon { background: var(--paper); color: var(--ink); }
+.card:nth-child(4n + 4) .icon { background: var(--sl-color-accent-low); color: var(--sl-color-accent-high); }
+
+/* Asides get rounder corners. A [Hot take] title still looks like a note. */
+.starlight-aside {
+  border-radius: 0.75rem;
+  border-inline-start-width: 0.35rem;
+}
+
+/* Tips wear the family green instead of Starlight's purple. */
+:root {
+  --sl-color-purple-low: #1f3216;
+  --sl-color-purple: #8dba5a;
+  --sl-color-purple-high: #d6ebc0;
+}
+
+:root[data-theme='light'] {
+  --sl-color-purple-low: #e6f0da;
+  --sl-color-purple: #4d6b2c;
+  --sl-color-purple-high: #2c3f18;
+}
+
+code,
+pre {
+  font-variant-ligatures: none;
+}
+
+/* Inline code reads as a chip. */
+.sl-markdown-content :not(pre) > code {
+  border-radius: 0.4rem;
+  padding: 0.1em 0.35em;
+}
+
+/* Tables used for reference pages. */
+.sl-markdown-content table {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+/* The little caption we put under jokes, diagrams and the family. */
+.cl-aside-quip {
+  color: var(--sl-color-gray-3);
+  font-style: italic;
+  font-size: var(--sl-text-sm);
+}
+
+/* The template family strip. */
+.cl-family {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 1rem;
+  margin-block: 1.5rem;
+}
+
+.cl-family a {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  padding: 1rem 0.5rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 1rem;
+  text-decoration: none;
+  color: var(--sl-color-white);
+  font-weight: 600;
+  font-size: var(--sl-text-sm);
+  text-align: center;
+  transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.cl-family a:hover {
+  transform: translateY(-3px) rotate(-1deg);
+  border-color: var(--leaf);
+}
+
+.cl-family a[aria-current='page'] {
+  border-color: var(--flavour);
+  background: color-mix(in srgb, var(--flavour) 8%, transparent);
+}
+
+.cl-family img {
+  width: 4rem;
+  height: 4rem;
+  margin: 0;
+}
+
+.cl-family small {
+  display: block;
+  font-weight: 400;
+  color: var(--sl-color-gray-3);
+}
+
+/* The report card on "How it's built". */
+.cl-report {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin-block: 1.5rem;
+}
+
+.cl-report > div {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+}
+
+.cl-report > div > * {
+  margin: 0;
+}
+
+.cl-report h3 {
+  font-size: var(--sl-text-lg);
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.cl-report p {
+  margin-top: 0.4rem;
+  color: var(--sl-color-gray-2);
+  font-size: var(--sl-text-sm);
+}
+
+.cl-report h3 a {
+  color: var(--sl-color-white);
+  text-decoration: none;
+}
+
+.cl-report h3 a:hover {
+  color: var(--sl-color-accent);
+}
+
+.cl-report .cl-grade {
+  margin-inline-start: auto;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  font-family: var(--cl-font-display);
+  font-size: var(--sl-text-xs);
+  font-weight: 700;
+  background: var(--flavour);
+  color: var(--ink);
+}
+
+.cl-report .cl-grade[data-kind='Tattletale'] {
+  background: var(--sl-color-gray-5);
+  color: var(--sl-color-white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .cl-family a,
+  .sl-link-button,
+  .hero .action {
+    transition: none;
+  }
+
+  .card:hover,
+  .cl-family a:hover,
+  .sl-link-button:hover,
+  .hero .action:hover {
+    transform: none;
+  }
+}
+
+/* The spinning rings in the hero. */
+.cl-hero-rings {
+  width: 100%;
+  max-width: 24rem;
+  font-family: var(--cl-font-display);
+  overflow: visible;
+}
+
+.cl-spin {
+  transform-origin: 200px 200px;
+  animation: cl-spin 80s linear infinite;
+}
+
+.cl-spin-back {
+  animation-duration: 60s;
+  animation-direction: reverse;
+}
+
+@keyframes cl-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cl-spin {
+    animation: none;
+  }
+}
+
+/* Diagrams drawn inline in the docs. */
+.cl-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-block: 1.5rem;
+  font-family: var(--cl-font-display);
+  color: var(--sl-color-white);
+}

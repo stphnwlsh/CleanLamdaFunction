@@ -12,6 +12,8 @@ A `dotnet new` template for an [AWS Lambda function](https://docs.aws.amazon.com
 
 It's one of five templates that share the same Application and Infrastructure layers and differ only in how they present them. See [Related templates](#related-templates).
 
+The full documentation, with guides, a function reference and the reasoning behind the design, lives at **[stphnwlsh.github.io/CleanLamdaFunction](https://stphnwlsh.github.io/CleanLamdaFunction/)**.
+
 ## Contents
 
 - [Getting started](#getting-started)
@@ -53,7 +55,7 @@ The function is invoked directly, so there is no bearer token to check. AWS IAM 
 ``` bash
 docker build . --target run --tag cleanlamdafunction:local
 docker run --rm -p 9000:8080 -e Database__SeedSampleData=true cleanlamdafunction:local
-curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"query":"the","offset":0,"limit":5}'
+curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"query":"global","offset":0,"limit":5}'
 ```
 
 The image runs the `GetMovies` function by default. The same handler also has `GetAuthors` and `GetReviews`. Each returns one page of results with a `TotalCount` and a `NextOffset`, and movies and authors come with their review count and average stars. Send the `NextOffset` back as `offset` to get the next page. Pass the function name to `docker run` to try another one.
@@ -101,9 +103,9 @@ The one deliberate break from Clean Architecture is that the Presentation projec
 
 ## Releases
 
-The template is released once a month. On the 1st, at 9am US Central time, the pipeline checks for changes since the last release. If anything outside `.github/` has changed, it builds and tests `main`, publishes the new version to [NuGet](https://www.nuget.org/packages/CleanLambdaFunction.Template) and creates a [GitHub release](https://github.com/stphnwlsh/CleanLamdaFunction/releases) with notes for every pull request merged since the previous one. If nothing has changed, there's no release that month. Dependency updates arrive on the 15th, so they're merged in time for the next release.
+The template is released once a month. On the 1st, at 9am US Central time, the pipeline checks for changes since the last release. If anything outside `.github/` and `website/` has changed, it builds and tests `main`, publishes the new version to [NuGet](https://www.nuget.org/packages/CleanLambdaFunction.Template) and creates a [GitHub release](https://github.com/stphnwlsh/CleanLamdaFunction/releases) with notes for every pull request merged since the previous one. If nothing has changed, there's no release that month. Dependency updates arrive on the 15th, so they're merged in time for the next release.
 
-Versions keep the `YYYY.MM.DD.RUN` format. Up to the end of October 2026, every merge to `main` was released, so the older releases are much smaller. To release outside the monthly cycle, run the **Build Pipeline** workflow by hand. Tick **force** to release even when only `.github/` has changed.
+Versions keep the `YYYY.MM.DD.RUN` format. Up to the end of October 2026, every merge to `main` was released, so the older releases are much smaller. To release outside the monthly cycle, run the **Build Pipeline** workflow by hand. Tick **force** to release even when only `.github/` or `website/` has changed.
 
 To update an installed template to the latest release:
 

@@ -1,0 +1,24 @@
+---
+import Default from '@astrojs/starlight/components/Footer.astro';
+---
+
+<Default><slot /></Default>
+<p class="cl-footer">
+  Made by <a href="https://github.com/stphnwlsh">Stephen Walsh</a> with Clean Architecture, strong coffee and a healthy
+  disregard for ceremony. Not affiliated with AWS, Uncle Bob or anyone with a marketing budget.
+</p>
+
+<style>
+  .cl-footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--sl-color-gray-5);
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-xs);
+    text-align: center;
+  }
+
+  .cl-footer a {
+    color: inherit;
+  }
+</style>

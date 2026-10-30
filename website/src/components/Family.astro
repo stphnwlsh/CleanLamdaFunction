@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+import minimalapi from '../assets/family/minimalapi.svg';
+import webapi from '../assets/family/webapi.svg';
+import graphql from '../assets/family/graphql.svg';
+import mcp from '../assets/family/mcp.svg';
+import lambda from '../assets/family/lambda.svg';
+
+const templates = [
+  { name: 'Clean Minimal API', note: 'Minimal APIs', href: 'https://github.com/stphnwlsh/CleanMinimalApi', logo: minimalapi },
+  { name: 'Clean Web API', note: 'Controllers', href: 'https://github.com/stphnwlsh/CleanWebApi', logo: webapi },
+  { name: 'Clean GraphQL API', note: 'Hot Chocolate', href: 'https://github.com/stphnwlsh/CleanGraphQLApi', logo: graphql },
+  { name: 'Clean Model Context Protocol', note: 'MCP server', href: 'https://github.com/stphnwlsh/CleanModelContextProtocol', logo: mcp },
+  { name: 'Clean Lambda Function', note: 'AWS Lambda', href: import.meta.env.BASE_URL, logo: lambda, current: true },
+];
+---
+
+<div class="cl-family not-content">
+  {
+    templates.map((t) => (
+      <a href={t.href} aria-current={t.current ? 'page' : undefined}>
+        <Image src={t.logo} alt="" width={64} height={64} />
+        <span>
+          {t.name}
+          <small>{t.note}</small>
+        </span>
+      </a>
+    ))
+  }
+</div>
