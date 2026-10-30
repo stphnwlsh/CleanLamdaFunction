@@ -25,6 +25,11 @@ dotnet new cleanlambdafunction --name Acme.Reviews --authorName "Your Name"
 cd Acme.Reviews
 ```
 
+| Option | What it does |
+| --- | --- |
+| `--name` | Names the solution and its root namespace |
+| `--authorName` | Puts your name on the assembly instead of ours |
+
 That's three layers, three test projects, a Dockerfile and a CI pipeline. Go and tell your team you've been working on it all week.
 
 ## Run it
@@ -60,7 +65,31 @@ curl -X POST http://localhost:9000/2015-03-31/functions/function/invocations \
 }
 ```
 
-Yes, the sample movies are named by a corporate buzzword generator, and the critics are harsh. The same handler also has `GetAuthors` and `GetReviews`, and [running it locally](https://leanmeancleanapps.github.io/lambda/guides/run-locally/) shows how to call them. When you're ready for the real thing, [deploy it to AWS](https://leanmeancleanapps.github.io/lambda/guides/deploy-to-aws/).
+Yes, the sample movies are named by a corporate buzzword generator, and the critics are harsh.
+
+Every function returns one page at a time, with a `TotalCount` and a `NextOffset` when there's more to come. Send the `NextOffset` back as `offset` to get the next page. Movies and authors come with their review count and average stars, worked out by the database rather than in a loop somewhere.
+
+The image runs `GetMovies` by default. The same handler also has `GetAuthors` and `GetReviews`, and you pick one by passing its full name when the container starts.
+
+```bash
+# Free up port 9000 and build the image
+docker compose down
+docker build . --target run --tag acme-reviews:local
+
+# Start the reviews function instead of movies
+docker run --rm -p 9000:8080 \
+  -e Database__SeedSampleData=true \
+  acme-reviews:local \
+  "Presentation::Acme.Reviews.Presentation.LambdaFunction.Handler::GetReviews"
+
+# Reviews take a movie or an author instead of a search term
+curl -X POST http://localhost:9000/2015-03-31/functions/function/invocations \
+  -d '{ "movieId": "30fca414-247a-779e-105a-d81aa2506f58", "limit": 5 }'
+```
+
+The database is a SQLite file in `/tmp`, the only place Lambda lets you write, and the function stops any work that would outrun the invocation's remaining time. Lambda bills by the millisecond, so it knows when to call it a day.
+
+When you're ready for the real thing, fill in your profile and region in `src/Presentation/aws-lambda-tools-defaults.json` and [deploy it to AWS](https://leanmeancleanapps.github.io/lambda/guides/deploy-to-aws/). Every other way to run it, from plain `docker run` to stamping a version into the image, is in [docs/RUN.md](docs/RUN.md).
 
 The function is invoked directly, so AWS IAM decides who gets to call it. Want bearer tokens over HTTP? Put it behind an API Gateway HTTP API with a JWT authorizer. Either way, the bouncer stands outside the door, not inside your code.
 
@@ -72,11 +101,21 @@ Three layers, loosely based on Clean Architecture. Fewer layers than an onion, m
 - **Application** owns the rules. Commands and queries are validated by [FluentValidation](https://github.com/FluentValidation/FluentValidation) and mapped by [Mapperly](https://mapperly.riok.app).
 - **Infrastructure** owns the data, with [Entity Framework Core](https://learn.microsoft.com/ef/core) on SQLite. Everything in it is `internal`, so Presentation can wire it up but can't move in.
 
-Tests use [xUnit](https://xunit.net), [Shouldly](https://github.com/shouldly/shouldly) and [NSubstitute](https://github.com/nsubstitute/NSubstitute), and each one gets its own throwaway database. The pipeline builds, tests, demands 95% coverage, scans the container with [Trivy](https://trivy.dev) and runs [CodeQL](https://codeql.github.com), because trust is earned. The [architecture page](https://leanmeancleanapps.github.io/lambda/explanation/architecture/) has the long version, with full credit to [Jason Taylor's template](https://github.com/jasontaylordev/CleanArchitecture) for the inspiration.
+There's a little CQRS in how commands and queries are shaped, but reads and writes share one database underneath. CQRS-curious, not CQRS-committed.
+
+And around the edges:
+
+- **Tests** use [xUnit](https://xunit.net), [Shouldly](https://github.com/shouldly/shouldly) and [NSubstitute](https://github.com/nsubstitute/NSubstitute), with coverage from [Coverlet](https://github.com/coverlet-coverage/coverlet). Each test gets its own throwaway in-memory database, so no test can spoil another one's data.
+- **Sample data** comes from [Bogus](https://github.com/bchavez/Bogus), and only when `Database:SeedSampleData` is on. A deployed function never starts with fake reviews.
+- **Build rules** live in `Directory.Build.props`. Code style and the recommended analyzers run on every build, warnings fail it, and package versions sit in one place with [Central Package Management](https://learn.microsoft.com/nuget/consume-packages/central-package-management).
+- **The pipeline** builds, tests, checks formatting, demands 95% coverage and 90% of every pull request's new lines, scans the container with [Trivy](https://trivy.dev) and runs [CodeQL](https://codeql.github.com). Trust is earned.
+- **Dependabot** bundles the month's dependency updates into one pull request on the 15th.
+
+The [architecture page](https://leanmeancleanapps.github.io/lambda/explanation/architecture/) has the long version, with full credit to [Jason Taylor's template](https://github.com/jasontaylordev/CleanArchitecture) and [Uncle Bob](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) for the ideas.
 
 ## Releases
 
-A new version lands on the 1st of each month, as long as something changed. No changes, no release. We're not here to pad the download stats.
+A new version lands on the 1st of each month, as long as something changed, with notes for every pull request in the [GitHub release](https://github.com/LeanMeanCleanApps/CleanLambdaFunction/releases). No changes, no release. We're not here to pad the download stats.
 
 ```bash
 dotnet new update
