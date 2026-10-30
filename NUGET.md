@@ -1,72 +1,67 @@
-# Clean Lambda Function
+![Clean Lambda Function](https://raw.githubusercontent.com/LeanMeanCleanApps/brand/main/assets/banners/png/lambda.png)
 
-A `dotnet new` template for an [AWS Lambda function](https://docs.aws.amazon.com/lambda/latest/dg/lambda-csharp.html) built with a streamlined version of Clean Architecture, packaged as a container image. All the layers you need, none of the ceremony you don't.
+A `dotnet new` template for an [AWS Lambda function](https://docs.aws.amazon.com/lambda/latest/dg/lambda-csharp.html) in .NET 10, built with a streamlined Clean Architecture and shipped as a container image. All the layers you need, none of the ceremony you don't.
 
-It's one of five [Lean Mean Clean Apps](https://leanmeancleanapps.github.io/) templates, for Minimal APIs, Model Context Protocol, GraphQL, Web API controllers and AWS Lambda, that share the same Application and Infrastructure layers, tests and CI pipeline. Full docs live at [leanmeancleanapps.github.io/lambda](https://leanmeancleanapps.github.io/lambda/).
+It's one of five [Lean Mean Clean Apps](https://leanmeancleanapps.github.io/) templates, for Minimal APIs, Model Context Protocol, GraphQL, Web API controllers and AWS Lambda. They share the same Application and Infrastructure layers and differ only in how they face the world. The full docs live at [leanmeancleanapps.github.io/lambda](https://leanmeancleanapps.github.io/lambda/).
 
-## Requirements
+## Get started
 
-- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-- [Docker](https://www.docker.com/products/docker-desktop) (optional, to build and run the container image)
+You need the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0). [Docker](https://www.docker.com/products/docker-desktop) is optional, but it's how you run the function locally.
 
-## Install
-
-``` bash
+```bash
+# Install the template
 dotnet new install CleanLambdaFunction.Template
+
+# Create a solution
+dotnet new cleanlambdafunction --name Acme.Reviews --authorName "Your Name"
+cd Acme.Reviews
 ```
 
-## Create a solution
-
-``` bash
-dotnet new cleanlambdafunction --name {YOUR_SOLUTION_NAMESPACE} --authorName "{YOUR_NAME}"
-```
-
-| Option | Description |
+| Option | What it does |
 | --- | --- |
-| `--name` | The name of the solution, also used as the root namespace. |
-| `--authorName` | The name of the author of the solution. |
-
-The function is invoked directly, so AWS IAM decides who can call it. To call it over HTTP with bearer tokens, put it behind an API Gateway HTTP API with a JWT authorizer.
+| `--name` | Names the solution and its root namespace |
+| `--authorName` | Puts your name on the assembly instead of ours |
 
 ## Run it
 
-From the new solution's folder, build the image and start it. The image includes the Lambda runtime interface emulator, so you can invoke the function locally exactly as Lambda would. No AWS account needed until you're ready.
+The image ships with the Lambda runtime emulator, so it answers exactly like Lambda would. No AWS account needed until you're ready.
 
-``` bash
+```bash
+# Build the image and start it with sample data
 docker compose up -d --build
-curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"query":"global","offset":0,"limit":5}'
+
+# Ask it for a page of movies
+curl -X POST http://localhost:9000/2015-03-31/functions/function/invocations \
+  -d '{ "query": "global", "limit": 2 }'
+
+# Run the tests while you're here
+dotnet test
 ```
 
-To deploy it, fill in your profile and region in `src/Presentation/aws-lambda-tools-defaults.json`, then run `dotnet lambda deploy-function --project-location ./src/Presentation` with [Amazon.Lambda.Tools](https://github.com/aws/aws-extensions-for-dotnet-cli).
-
-Run the tests with `dotnet test`. Every way to run the solution is in `docs/RUN.md` inside it.
+When you're ready for the real thing, [deploy it to AWS](https://leanmeancleanapps.github.io/lambda/guides/deploy-to-aws/). The function is invoked directly, so AWS IAM decides who gets to call it.
 
 ## What's inside
 
-- **Presentation**: AWS Lambda handlers packaged as a container image, using the source-generated Lambda serializer
-- **Application**: commands and queries through [Mediator](https://github.com/martinothamar/Mediator), validation with [FluentValidation](https://github.com/FluentValidation/FluentValidation) and mapping with [Mapperly](https://mapperly.riok.app)
-- **Infrastructure**: [Entity Framework Core](https://learn.microsoft.com/ef/core) on SQLite with migrations and optional sample data
-- **Tests**: [xUnit](https://xunit.net), [Shouldly](https://github.com/shouldly/shouldly) and [NSubstitute](https://github.com/nsubstitute/NSubstitute), each test on its own in-memory database
-- A Dockerfile that runs as a non-root user, a `docker-compose.yml`, and a GitHub Actions pipeline with tests, a coverage gate, a container scan and CodeQL
+- **Presentation**: the Lambda handler, using the source-generated serializer so cold starts don't pay for reflection
+- **Application**: commands and queries through [Mediator](https://github.com/martinothamar/Mediator), validated by [FluentValidation](https://github.com/FluentValidation/FluentValidation) and mapped by [Mapperly](https://mapperly.riok.app)
+- **Infrastructure**: [Entity Framework Core](https://learn.microsoft.com/ef/core) on SQLite, with optional sample data
+- **Tests**: [xUnit](https://xunit.net), [Shouldly](https://github.com/shouldly/shouldly) and [NSubstitute](https://github.com/nsubstitute/NSubstitute), each on its own throwaway database
+- **Extras**: a Dockerfile that runs as a non-root user, Docker Compose, and a GitHub Actions pipeline that won't let your coverage slip
 
-## Updates
+## Releases
 
-A new version is released on the 1st of each month with every change merged since the previous release, as long as something has changed. No change, no new version number. We're not here to pad the download stats. To update an installed template:
+A new version lands on the 1st of each month, as long as something changed. No changes, no release. We're not here to pad the download stats.
 
-``` bash
+```bash
 dotnet new update
 ```
 
-What changed in each version is in the [release notes](https://github.com/stphnwlsh/CleanLamdaFunction/releases). To remove the template, run `dotnet new uninstall CleanLambdaFunction.Template`.
-
 ## More help
 
-- [Docs site](https://leanmeancleanapps.github.io/lambda/) for guides, a reference and why it's built this way
-- [README on GitHub](https://github.com/stphnwlsh/CleanLamdaFunction#readme) for the architecture, every feature and the Docker build options
-- [Running guide](https://github.com/stphnwlsh/CleanLamdaFunction/blob/main/docs/RUN.md) for every way to run, configure and test the solution
-- [GitHub issues](https://github.com/stphnwlsh/CleanLamdaFunction/issues) for bugs and ideas
-- [Security policy](https://github.com/stphnwlsh/CleanLamdaFunction/security/policy) to report a vulnerability privately
+- [Docs](https://leanmeancleanapps.github.io/lambda/) for guides, a reference and why it's built this way
+- [GitHub](https://github.com/LeanMeanCleanApps/CleanLambdaFunction) for the code, [issues](https://github.com/LeanMeanCleanApps/CleanLambdaFunction/issues) and [release notes](https://github.com/LeanMeanCleanApps/CleanLambdaFunction/releases)
+- [Security policy](https://github.com/LeanMeanCleanApps/CleanLambdaFunction/security/policy) to report a vulnerability privately
 
-## Support
+## Who built this
 
-If this template saves you time, please consider [sponsoring the work on GitHub](https://github.com/sponsors/stphnwlsh). It keeps all five templates current, and the coffee flowing.
+Built by [Stephen Walsh](https://github.com/stphnwlsh) in spare time, with strong coffee and a healthy disregard for pomp and ceremony. If this template saves you some time, [sponsoring the work](https://github.com/sponsors/stphnwlsh) keeps all five templates current and the coffee flowing.
