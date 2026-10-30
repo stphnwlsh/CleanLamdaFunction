@@ -2,7 +2,7 @@
 
 Thanks for stopping by. Bug reports, ideas, documentation fixes and pull requests are all welcome, roughly in that order of how quickly they get a reply.
 
-This is a personal open source project, built and looked after by [Stephen Walsh](https://github.com/stphnwlsh) in spare time, with strong coffee and a healthy disregard for ceremony. There's one maintainer, so the fastest way to get something changed is to make it easy to say yes to.
+This is a personal open source project, built and looked after by [Stephen Walsh](https://github.com/stphnwlsh) in spare time, with strong coffee and a healthy disregard for pomp and ceremony. There's one maintainer, so the fastest way to get something changed is to make it easy to say yes to.
 
 ## Before you start
 
