@@ -1,3 +1,8 @@
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/LeanMeanCleanApps/brand/main/assets/logos/lambda/png/lambda-light-256.png">
+  <img src="https://raw.githubusercontent.com/LeanMeanCleanApps/brand/main/assets/logos/lambda/png/lambda-256.png" alt="Clean Lambda Function logo" width="128" align="right">
+</picture>
+
 # Clean Lambda Function
 
 [![Build Pipeline](https://img.shields.io/github/actions/workflow/status/stphnwlsh/CleanLamdaFunction/build-pipeline.yml?branch=main&label=Build%20Pipeline&logo=github&style=for-the-badge)](https://github.com/stphnwlsh/CleanLamdaFunction/actions/workflows/build-pipeline.yml)
@@ -7,11 +12,11 @@
 [![License](https://img.shields.io/github/license/stphnwlsh/CleanLamdaFunction?label=License&style=for-the-badge)](LICENSE.md)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/stphnwlsh?label=Sponsor&logo=githubsponsors&logoColor=white&color=ea4aaa&style=for-the-badge)](https://github.com/sponsors/stphnwlsh)
 
-A `dotnet new` template for an [AWS Lambda function](https://docs.aws.amazon.com/lambda/latest/dg/lambda-csharp.html) built with a streamlined version of Clean Architecture, packaged as a container image.
+A `dotnet new` template for an [AWS Lambda function](https://docs.aws.amazon.com/lambda/latest/dg/lambda-csharp.html) built with a streamlined version of Clean Architecture, packaged as a container image. All the layers you need, none of the ceremony you don't.
 
-It's one of five templates that share the same Application and Infrastructure layers and differ only in how they present them. See [Related templates](#related-templates).
+It's one of five [Lean Mean Clean Apps](https://leanmeancleanapps.github.io/) templates that share the same Application and Infrastructure layers and differ only in how they present them. Same genes, different haircuts. See [Related templates](#related-templates).
 
-The full documentation, with guides, a function reference and the reasoning behind the design, lives at **[stphnwlsh.github.io/CleanLamdaFunction](https://stphnwlsh.github.io/CleanLamdaFunction/)**.
+The full documentation, with guides, a function reference and the reasoning behind the design, lives at **[stphnwlsh.github.io/CleanLamdaFunction](https://stphnwlsh.github.io/CleanLamdaFunction/)**. This README is the short version for people who skim. We see you.
 
 ## Contents
 
@@ -45,9 +50,11 @@ dotnet new install CleanLambdaFunction.Template
 dotnet new cleanlambdafunction --name {YOUR_SOLUTION_NAMESPACE} --authorName "{YOUR_NAME}"
 ```
 
+That's it. You now have three layers, three test projects, a Dockerfile and a CI pipeline. Go and tell your team you've been working on it all week.
+
 ### Securing the function
 
-The function is invoked directly, so there is no bearer token to check. AWS IAM decides who can call it: only principals allowed `lambda:InvokeFunction` on the function (through an IAM policy or the function's resource-based policy) can invoke it. To call it over HTTP with bearer tokens instead, put it behind an [API Gateway HTTP API with a JWT authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-jwt-authorizer.html), which validates the token before the function runs.
+The function is invoked directly, so there is no bearer token to check. AWS IAM decides who can call it: only principals allowed `lambda:InvokeFunction` on the function (through an IAM policy or the function's resource-based policy) can invoke it. To call it over HTTP with bearer tokens instead, put it behind an [API Gateway HTTP API with a JWT authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-jwt-authorizer.html), which validates the token before the function runs. Either way, the bouncer stands outside the door, not inside your code.
 
 ## Running the project
 
@@ -64,7 +71,7 @@ docker run --rm -p 9000:8080 -e Database__SeedSampleData=true cleanlamdafunction
 curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"movieId":"3fa85f64-5717-4562-b3fc-2c963f66afa6","limit":5}'
 ```
 
-`GetReviews` takes an optional `movieId` and `authorId` in place of `query`. The function keeps its SQLite database in `/tmp`, the only place Lambda can write, and stops any work that would outrun the invocation's remaining time.
+`GetReviews` takes an optional `movieId` and `authorId` in place of `query`. The function keeps its SQLite database in `/tmp`, the only place Lambda can write, and stops any work that would outrun the invocation's remaining time. Lambda bills by the millisecond, so the function knows when to call it a day.
 
 The `Dockerfile` has stages for testing, publishing and running, so you can build just the part you need. You can also stamp a version into the assembly.
 
@@ -74,11 +81,11 @@ docker build . --target run --tag cleanlamdafunction:latest --build-arg VERSION_
 
 ## Architecture
 
-This solution is loosely based on Clean Architecture. It's by no means perfect, so I prefer to call it "Lean Mean Clean Architecture". Inspiration comes from [Jason Taylor's Clean Architecture Template](https://github.com/jasontaylordev/CleanArchitecture), with some ideas taken further and others scaled back.
+This solution is loosely based on Clean Architecture. It's by no means perfect, so I prefer to call it "Lean Mean Clean Architecture". Fewer layers than an onion, more than a sandwich. Inspiration comes from [Jason Taylor's Clean Architecture Template](https://github.com/jasontaylordev/CleanArchitecture), with some ideas taken further and others scaled back.
 
-There's a little CQRS in the style of the commands and queries, but reads and writes use the same data source underneath.
+There's a little CQRS in the style of the commands and queries, but reads and writes use the same data source underneath. CQRS-curious, not CQRS-committed.
 
-The one deliberate break from Clean Architecture is that the Presentation project references the Infrastructure project, so it can wire up dependency injection. To protect that boundary, every class in Infrastructure is `internal`, so it can't be used from Presentation by accident.
+The one deliberate break from Clean Architecture is that the Presentation project references the Infrastructure project, so it can wire up dependency injection. To protect that boundary, every class in Infrastructure is `internal`, so it can't be used from Presentation by accident. Presentation can introduce itself, but it can't move in.
 
 ### Project structure
 
@@ -102,7 +109,7 @@ The one deliberate break from Clean Architecture is that the Presentation projec
 
 ## Releases
 
-The template is released once a month. On the 1st, at 9am US Central time, the pipeline checks for changes since the last release. If anything outside `.github/` and `website/` has changed, it builds and tests `main`, publishes the new version to [NuGet](https://www.nuget.org/packages/CleanLambdaFunction.Template) and creates a [GitHub release](https://github.com/stphnwlsh/CleanLamdaFunction/releases) with notes for every pull request merged since the previous one. If nothing has changed, there's no release that month. Dependency updates arrive on the 15th, so they're merged in time for the next release.
+The template is released once a month. On the 1st, at 9am US Central time, the pipeline checks for changes since the last release. If anything outside `.github/` and `website/` has changed, it builds and tests `main`, publishes the new version to [NuGet](https://www.nuget.org/packages/CleanLambdaFunction.Template) and creates a [GitHub release](https://github.com/stphnwlsh/CleanLamdaFunction/releases) with notes for every pull request merged since the previous one. If nothing has changed, there's no release that month, because nobody needs a new version number for the same code. Dependency updates arrive on the 15th, so they're merged in time for the next release.
 
 Versions keep the `YYYY.MM.DD.RUN` format. Up to the end of October 2026, every merge to `main` was released, so the older releases are much smaller. To release outside the monthly cycle, run the **Build Pipeline** workflow by hand. Tick **force** to release even when only `.github/` or `website/` has changed.
 
@@ -120,13 +127,13 @@ All five templates share the same Application and Infrastructure layers, tests, 
 | --- | --- | --- |
 | [Clean Minimal API](https://github.com/stphnwlsh/CleanMinimalApi) | ASP.NET Core Minimal APIs | [CleanMinimalApi.Template](https://www.nuget.org/packages/CleanMinimalApi.Template) |
 | [Clean Web API](https://github.com/stphnwlsh/CleanWebApi) | ASP.NET Core controllers | [CleanWebApi.Template](https://www.nuget.org/packages/CleanWebApi.Template) |
-| [Clean GraphQL API](https://github.com/stphnwlsh/CleanGraphQLApi) | GraphQL | [CleanGraphQLApi.Template](https://www.nuget.org/packages/CleanGraphQLApi.Template) |
+| [Clean GraphQL API](https://github.com/stphnwlsh/CleanGraphQLApi) | GraphQL with Hot Chocolate | [CleanGraphQLApi.Template](https://www.nuget.org/packages/CleanGraphQLApi.Template) |
 | [Clean Model Context Protocol](https://github.com/stphnwlsh/CleanModelContextProtocol) | Model Context Protocol server | [CleanModelContextProtocol.Template](https://www.nuget.org/packages/CleanModelContextProtocol.Template) |
 | **Clean Lambda Function** (this repo) | AWS Lambda function | [CleanLambdaFunction.Template](https://www.nuget.org/packages/CleanLambdaFunction.Template) |
 
 ## Resources
 
-This template wouldn't exist without these resources. If you're on your own learning adventure, they're well worth a read.
+This template wouldn't exist without these resources. If you're on your own learning adventure, they're well worth a read. Better than the comments section, anyway.
 
 - [AWS - Building Lambda functions with C#](https://docs.aws.amazon.com/lambda/latest/dg/lambda-csharp.html)
 - [AWS - Testing Lambda container images locally](https://docs.aws.amazon.com/lambda/latest/dg/images-test.html)
@@ -136,11 +143,11 @@ This template wouldn't exist without these resources. If you're on your own lear
 
 ## Contributing
 
-Bug reports, ideas and pull requests are welcome. Please read the [contributing guide](CONTRIBUTING.md) and the [code of conduct](CODE_OF_CONDUCT.md) first. To report a security vulnerability, follow the [security policy](SECURITY.md) instead of opening an issue.
+Bug reports, ideas and pull requests are welcome, and typo fixes are welcome with open arms. Please read the [contributing guide](CONTRIBUTING.md) and the [code of conduct](CODE_OF_CONDUCT.md) first. To report a security vulnerability, follow the [security policy](SECURITY.md) instead of opening an issue.
 
 ## Support
 
-If this template saves you time, please consider [sponsoring me on GitHub](https://github.com/sponsors/stphnwlsh). It helps me keep all five templates up to date.
+If this template saves you time, please consider [sponsoring me on GitHub](https://github.com/sponsors/stphnwlsh). It helps me keep all five templates up to date with each .NET release, and it keeps the coffee flowing, which is the real dependency here.
 
 [![Please sponsor me](docs/sponsor.jpg)](https://github.com/sponsors/stphnwlsh)
 
@@ -148,4 +155,4 @@ You can also connect with me on [LinkedIn](https://www.linkedin.com/in/stphnwlsh
 
 ## License
 
-Released under the [MIT License](LICENSE.md).
+Released under the [MIT License](LICENSE.md). Take it, change it, ship it. Just don't blame me for your cold starts.
