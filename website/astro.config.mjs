@@ -35,6 +35,7 @@ export default defineConfig({
         styleOverrides: { borderRadius: '0.75rem', codeFontFamily: "'JetBrains Mono Variable', ui-monospace, monospace" },
       },
       head: [
+        { tag: 'link', attrs: { rel: 'apple-touch-icon', href: `${base}/apple-touch-icon.png` } },
         { tag: 'meta', attrs: { property: 'og:image', content: `${site}${base}/social.png` } },
         { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' } },
         { tag: 'meta', attrs: { name: 'twitter:image', content: `${site}${base}/social.png` } },
