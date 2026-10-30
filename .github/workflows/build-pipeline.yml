@@ -331,7 +331,7 @@ jobs:
   release:
     name: Release Check
     runs-on: ubuntu-latest
-    if: ${{ github.repository == 'stphnwlsh/CleanLamdaFunction' && github.ref == 'refs/heads/main' && (github.event.schedule == '0 9 1 * *' || github.event_name == 'workflow_dispatch') }}
+    if: ${{ github.repository == 'LeanMeanCleanApps/CleanLambdaFunction' && github.ref == 'refs/heads/main' && (github.event.schedule == '0 9 1 * *' || github.event_name == 'workflow_dispatch') }}
     permissions:
       contents: read
 

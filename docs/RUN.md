@@ -8,43 +8,52 @@ The function stores its data in a SQLite file, `/tmp/movie-reviews.db`, because 
 
 To add a migration after changing the data model:
 
-``` bash
+```bash
+# Once per machine
 dotnet tool install --global dotnet-ef
-dotnet ef migrations add <Name> --project ./src/Infrastructure --output-dir Databases/MovieReviews/Migrations
+
+# Then for each change
+dotnet ef migrations add <Name> \
+  --project ./src/Infrastructure \
+  --output-dir Databases/MovieReviews/Migrations
 ```
 
 ## Docker
 
 Build the image and start it.
 
-``` bash
+```bash
 docker build . --target run --tag cleanlambdafunction:local
-docker run --rm -p 9000:8080 -e Database__SeedSampleData=true cleanlambdafunction:local
+
+docker run --rm -p 9000:8080 \
+  -e Database__SeedSampleData=true \
+  cleanlambdafunction:local
 ```
 
 Invoke the function from another terminal.
 
-``` bash
-curl -X POST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"query":"global","offset":0,"limit":5}'
+```bash
+curl -X POST http://localhost:9000/2015-03-31/functions/function/invocations \
+  -d '{ "query": "global", "offset": 0, "limit": 5 }'
 ```
 
 ## Docker Compose
 
 `docker-compose.yml` does the same build and run in one step.
 
-``` bash
+```bash
 docker compose up -d --build
 ```
 
 To shut it down:
 
-``` bash
+```bash
 docker compose down
 ```
 
 ## Tests
 
-``` bash
+```bash
 dotnet test
 ```
 
@@ -52,8 +61,11 @@ dotnet test
 
 `src/Presentation/aws-lambda-tools-defaults.json` holds the defaults for the [Amazon.Lambda.Tools](https://github.com/aws/aws-extensions-for-dotnet-cli) CLI. Fill in your profile and region, then deploy the container image.
 
-``` bash
-dotnet tool install -g Amazon.Lambda.Tools
+```bash
+# Once per machine
+dotnet tool install --global Amazon.Lambda.Tools
+
+# Then each time you ship
 dotnet lambda deploy-function --project-location ./src/Presentation
 ```
 

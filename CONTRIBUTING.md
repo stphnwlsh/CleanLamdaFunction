@@ -7,7 +7,7 @@ This is a [Lean Mean Clean Apps](https://leanmeancleanapps.github.io/) project, 
 ## Before you start
 
 - Be kind. The [code of conduct](CODE_OF_CONDUCT.md) says how.
-- Search the [existing issues](https://github.com/stphnwlsh/CleanLamdaFunction/issues) first. Someone may have beaten you to it.
+- Search the [existing issues](https://github.com/LeanMeanCleanApps/CleanLambdaFunction/issues) first. Someone may have beaten you to it.
 - For anything larger than a small fix, open an issue first, so we can agree on the approach before you spend an evening on it.
 - Report security vulnerabilities privately, as described in the [security policy](SECURITY.md), not in a public issue.
 
@@ -19,7 +19,7 @@ This repository is one of five [Lean Mean Clean Apps](https://leanmeancleanapps.
 - [Clean Model Context Protocol](https://github.com/stphnwlsh/CleanModelContextProtocol)
 - [Clean GraphQL API](https://github.com/stphnwlsh/CleanGraphQLApi)
 - [Clean Web API](https://github.com/stphnwlsh/CleanWebApi)
-- [Clean Lambda Function](https://github.com/stphnwlsh/CleanLamdaFunction)
+- [Clean Lambda Function](https://github.com/LeanMeanCleanApps/CleanLambdaFunction)
 
 If your change touches the Application or Infrastructure layers, their tests, the build pipeline or the repository setup, it needs to be made in all five. Mention that in your pull request and the maintainer will carry it across. You fix it once, the family gets it five times.
 

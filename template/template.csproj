@@ -9,12 +9,12 @@
     <Description>A dotnet new template for an AWS Lambda function packaged as a container image, built with a streamlined Clean Architecture on .NET 10.</Description>
     <PackageTags>dotnet;csharp;dotnet-template;template;clean-architecture;cqrs;mediator;fluentvalidation;mapperly;entity-framework-core;docker;aws;aws-lambda;serverless</PackageTags>
     <PackageProjectUrl>https://leanmeancleanapps.github.io/lambda/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/stphnwlsh/CleanLamdaFunction</RepositoryUrl>
+    <RepositoryUrl>https://github.com/LeanMeanCleanApps/CleanLambdaFunction</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseFile>docs/LICENSE.md</PackageLicenseFile>
     <PackageReadmeFile>docs/NUGET.md</PackageReadmeFile>
     <PackageIcon>images/icon.png</PackageIcon>
-    <PackageReleaseNotes>https://github.com/stphnwlsh/CleanLamdaFunction/releases</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/LeanMeanCleanApps/CleanLambdaFunction/releases</PackageReleaseNotes>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NoWarn>$(NoWarn);NU5128;NU5118</NoWarn>
     <NoDefaultExcludes>true</NoDefaultExcludes>
