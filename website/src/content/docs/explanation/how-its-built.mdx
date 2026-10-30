@@ -20,14 +20,16 @@ These are templates I build for fun, but the pipeline doesn't know that. Every p
     { name: 'Code coverage', icon: 'analytics', grade: 'Gatekeeper', href: 'https://codecov.io/gh/stphnwlsh/CleanLamdaFunction', what: '95% line coverage overall and 90% on the lines a pull request changes, measured by our own script. Codecov keeps the history and comments on the pull request.' },
     { name: 'Trivy', icon: 'magnifier', grade: 'Gatekeeper', href: 'https://trivy.dev', what: 'Scans the Lambda image for high and critical vulnerabilities that have a fix available, and reports them to GitHub code scanning.' },
     { name: 'CodeQL', icon: 'seti:code-search', grade: 'Gatekeeper', href: 'https://codeql.github.com', what: 'Static analysis of the C# and of the GitHub Actions workflows themselves, with the security-and-quality queries.' },
-    { name: 'Dependabot', icon: 'random', grade: 'Tattletale', href: 'https://docs.github.com/code-security/dependabot', what: 'One grouped pull request on the 15th of each month for NuGet packages, Docker images, GitHub Actions and the docs site.' },
+    { name: 'Dependabot', icon: 'random', grade: 'Tattletale', href: 'https://docs.github.com/code-security/dependabot', what: 'One grouped pull request on the 15th of each month for NuGet packages, the Docker Compose images, GitHub Actions and the docs site.' },
   ]}
 />
 
 ## The rules on main
 
 - Every change goes through a pull request, and every check above must pass.
+- Only the maintainer can merge. Pull requests from anyone are welcome, but the green button has one owner.
 - Commits must be signed, and merges are squashed so the history stays readable.
+- Release tags can't be moved or deleted once they exist, so a version always means the same code.
 - Third-party GitHub Actions are pinned to a commit, not a tag, so nobody can swap them out from under us.
 
 ## Releases

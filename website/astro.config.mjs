@@ -15,7 +15,7 @@ export default defineConfig({
     starlight({
       title: 'Clean Lambda Function',
       description: 'A .NET 10 dotnet new template for AWS Lambda, built with Clean Architecture minus the ceremony.',
-      logo: { src: './src/assets/logo.svg', alt: 'Clean Lambda Function' },
+      logo: { dark: './src/assets/logo.svg', light: './src/assets/logo-light.svg', alt: 'Clean Lambda Function' },
       favicon: '/favicon.svg',
       social: [
         { icon: 'github', label: 'GitHub', href: repo },
@@ -28,6 +28,9 @@ export default defineConfig({
         '@fontsource-variable/bricolage-grotesque',
         '@fontsource-variable/inter',
         '@fontsource-variable/jetbrains-mono',
+        './src/styles/brand/tokens.css',
+        './src/styles/brand/base.css',
+        './src/styles/brand/lambda.css',
         './src/styles/theme.css',
       ],
       expressiveCode: {
@@ -35,8 +38,11 @@ export default defineConfig({
         styleOverrides: { borderRadius: '0.75rem', codeFontFamily: "'JetBrains Mono Variable', ui-monospace, monospace" },
       },
       head: [
+        { tag: 'link', attrs: { rel: 'icon', href: `${base}/favicon.ico`, sizes: '48x48' } },
         { tag: 'link', attrs: { rel: 'apple-touch-icon', href: `${base}/apple-touch-icon.png` } },
         { tag: 'meta', attrs: { property: 'og:image', content: `${site}${base}/social.png` } },
+        { tag: 'meta', attrs: { property: 'og:image:width', content: '1280' } },
+        { tag: 'meta', attrs: { property: 'og:image:height', content: '640' } },
         { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' } },
         { tag: 'meta', attrs: { name: 'twitter:image', content: `${site}${base}/social.png` } },
       ],

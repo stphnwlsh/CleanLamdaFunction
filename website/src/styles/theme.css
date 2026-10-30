@@ -1,68 +1,22 @@
 /*
- * Clean templates look and feel.
- * Every template shares the same logo and the same ink, leaf and paper colours.
+ * Look and feel for the Clean Lambda Function docs.
+ * Colours and fonts come from the Lean Mean Clean Apps brand in ./brand, copied in by `npm run sync-brand`.
+ * This file only adds the bits that are particular to this site.
  */
 
 :root {
-  --ink: #0b132a;
-  --ink-2: #1c2838;
-  --leaf: #6e9a43;
-  --paper: #fbfaf8;
-  --leaf-light: #8dba5a;
-  --flavour: var(--leaf-light);
-  --cl-mark-ring: var(--paper);
-
-  --sl-font: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
-  --sl-font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
-  --cl-font-display: 'Bricolage Grotesque Variable', var(--sl-font);
-
+  --cl-hue: var(--lmca-lambda);
   --sl-content-width: 46rem;
   --sl-text-h1: 2.5rem;
 }
 
-/* Dark is the default, and it's ink, not grey. */
-:root {
-  --sl-color-accent-low: #1f3216;
-  --sl-color-accent: #8dba5a;
-  --sl-color-accent-high: #d6ebc0;
-  --sl-color-white: #fbfaf8;
-  --sl-color-gray-1: #e9ecf2;
-  --sl-color-gray-2: #c3cad8;
-  --sl-color-gray-3: #8c96ad;
-  --sl-color-gray-4: #5a6480;
-  --sl-color-gray-5: #2a3554;
-  --sl-color-gray-6: #141d38;
-  --sl-color-black: #0b132a;
-}
-
 :root[data-theme='light'] {
-  --cl-mark-ring: var(--ink);
-  --sl-color-accent-low: #dcebcb;
-  --sl-color-accent: #4d6b2c;
-  --sl-color-accent-high: #2c3f18;
-  --sl-color-white: #0b132a;
-  --sl-color-gray-1: #1c2838;
-  --sl-color-gray-2: #2f3b52;
-  --sl-color-gray-3: #535d78;
-  --sl-color-gray-4: #8c96ad;
-  --sl-color-gray-5: #d9dce3;
-  --sl-color-gray-6: #efede6;
-  --sl-color-gray-7: #f6f4ef;
-  --sl-color-black: #fbfaf8;
+  --cl-hue: var(--lmca-amber-600);
 }
 
 ::selection {
-  background: var(--flavour);
-  color: var(--ink);
-}
-
-/* Headings get the playful display face. */
-.sl-markdown-content :is(h1, h2, h3),
-h1#_top,
-.hero h1,
-.site-title {
-  font-family: var(--cl-font-display);
-  letter-spacing: -0.02em;
+  background: var(--cl-hue);
+  color: var(--lmca-ink);
 }
 
 h1#_top {
@@ -97,6 +51,17 @@ h1#_top {
   line-height: 1.02;
 }
 
+.hero img {
+  width: 100%;
+  max-width: 22rem;
+}
+
+@media (max-width: 50rem) {
+  .hero img {
+    max-width: 11rem;
+  }
+}
+
 .hero .tagline {
   font-size: clamp(1.1rem, 2.2vw, 1.35rem);
   color: var(--sl-color-gray-2);
@@ -110,11 +75,11 @@ h1#_top {
   background-image: radial-gradient(
       circle at 85% 12%,
       transparent 0 9rem,
-      color-mix(in srgb, var(--leaf) 9%, transparent) 9rem 9.5rem,
+      color-mix(in srgb, var(--cl-hue) 9%, transparent) 9rem 9.5rem,
       transparent 9.5rem 14rem,
-      color-mix(in srgb, var(--leaf) 6%, transparent) 14rem 14.5rem,
+      color-mix(in srgb, var(--cl-hue) 6%, transparent) 14rem 14.5rem,
       transparent 14.5rem 19rem,
-      color-mix(in srgb, var(--leaf) 4%, transparent) 19rem 19.5rem,
+      color-mix(in srgb, var(--cl-hue) 4%, transparent) 19rem 19.5rem,
       transparent 19.5rem
     );
   background-repeat: no-repeat;
@@ -142,35 +107,20 @@ h1#_top {
 
 .card:hover {
   transform: translateY(-3px);
-  border-color: var(--leaf);
+  border-color: var(--cl-hue);
 }
 
 .card .icon {
   border-radius: 0.6rem;
 }
 
-.card:nth-child(4n + 1) .icon { background: var(--leaf); color: var(--paper); }
-.card:nth-child(4n + 2) .icon { background: var(--leaf-light); color: var(--ink); }
-.card:nth-child(4n + 3) .icon { background: var(--paper); color: var(--ink); }
-.card:nth-child(4n + 4) .icon { background: var(--sl-color-accent-low); color: var(--sl-color-accent-high); }
+.card:nth-child(odd) .icon { background: var(--cl-hue); color: var(--lmca-ink); }
+.card:nth-child(even) .icon { background: var(--sl-color-accent-low); color: var(--sl-color-accent-high); }
 
 /* Asides get rounder corners. A [Hot take] title still looks like a note. */
 .starlight-aside {
   border-radius: 0.75rem;
   border-inline-start-width: 0.35rem;
-}
-
-/* Tips wear the family green instead of Starlight's purple. */
-:root {
-  --sl-color-purple-low: #1f3216;
-  --sl-color-purple: #8dba5a;
-  --sl-color-purple-high: #d6ebc0;
-}
-
-:root[data-theme='light'] {
-  --sl-color-purple-low: #e6f0da;
-  --sl-color-purple: #4d6b2c;
-  --sl-color-purple-high: #2c3f18;
 }
 
 code,
@@ -222,12 +172,12 @@ pre {
 
 .cl-family a:hover {
   transform: translateY(-3px) rotate(-1deg);
-  border-color: var(--leaf);
+  border-color: var(--cl-family-hue);
 }
 
 .cl-family a[aria-current='page'] {
-  border-color: var(--flavour);
-  background: color-mix(in srgb, var(--flavour) 8%, transparent);
+  border-color: var(--cl-family-hue);
+  background: color-mix(in srgb, var(--cl-family-hue) 8%, transparent);
 }
 
 .cl-family img {
@@ -286,11 +236,11 @@ pre {
   margin-inline-start: auto;
   padding: 0.1rem 0.6rem;
   border-radius: 999px;
-  font-family: var(--cl-font-display);
+  font-family: var(--lmca-font-display);
   font-size: var(--sl-text-xs);
   font-weight: 700;
-  background: var(--flavour);
-  color: var(--ink);
+  background: var(--cl-hue);
+  color: var(--lmca-ink);
 }
 
 .cl-report .cl-grade[data-kind='Tattletale'] {
@@ -314,35 +264,12 @@ pre {
   }
 }
 
-/* The logo in the hero. The coils turn, slowly. */
-.cl-hero-mark {
-  width: 100%;
-  max-width: 22rem;
-}
-
-.cl-spin {
-  transform-origin: 256px 256px;
-  animation: cl-spin 90s linear infinite;
-}
-
-@keyframes cl-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cl-spin {
-    animation: none;
-  }
-}
-
 /* Diagrams drawn inline in the docs. */
 .cl-diagram {
   display: block;
   width: 100%;
   height: auto;
   margin-block: 1.5rem;
-  font-family: var(--cl-font-display);
+  font-family: var(--lmca-font-display);
   color: var(--sl-color-white);
 }
