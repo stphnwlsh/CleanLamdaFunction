@@ -2,7 +2,7 @@
 
 A `dotnet new` template for an [AWS Lambda function](https://docs.aws.amazon.com/lambda/latest/dg/lambda-csharp.html) built with a streamlined version of Clean Architecture, packaged as a container image. All the layers you need, none of the ceremony you don't.
 
-It's one of five [Lean Mean Clean Apps](https://leanmeancleanapps.github.io/) templates, for Minimal APIs, Web API controllers, GraphQL, Model Context Protocol and AWS Lambda, that share the same Application and Infrastructure layers, tests and CI pipeline. Full docs live at [leanmeancleanapps.github.io/lambda](https://leanmeancleanapps.github.io/lambda/).
+It's one of five [Lean Mean Clean Apps](https://leanmeancleanapps.github.io/) templates, for Minimal APIs, Model Context Protocol, GraphQL, Web API controllers and AWS Lambda, that share the same Application and Infrastructure layers, tests and CI pipeline. Full docs live at [leanmeancleanapps.github.io/lambda](https://leanmeancleanapps.github.io/lambda/).
 
 ## Requirements
 
@@ -61,7 +61,7 @@ What changed in each version is in the [release notes](https://github.com/stphnw
 
 ## More help
 
-- [Docs site](https://leanmeancleanapps.github.io/lambda/) for guides, a function reference and why it's built this way
+- [Docs site](https://leanmeancleanapps.github.io/lambda/) for guides, a reference and why it's built this way
 - [README on GitHub](https://github.com/stphnwlsh/CleanLamdaFunction#readme) for the architecture, every feature and the Docker build options
 - [Running guide](https://github.com/stphnwlsh/CleanLamdaFunction/blob/main/docs/RUN.md) for every way to run, configure and test the solution
 - [GitHub issues](https://github.com/stphnwlsh/CleanLamdaFunction/issues) for bugs and ideas
@@ -69,4 +69,4 @@ What changed in each version is in the [release notes](https://github.com/stphnw
 
 ## Support
 
-If this template saves you time, please consider [sponsoring me on GitHub](https://github.com/sponsors/stphnwlsh). It keeps all five templates current, and the coffee flowing.
+If this template saves you time, please consider [sponsoring the work on GitHub](https://github.com/sponsors/stphnwlsh). It keeps all five templates current, and the coffee flowing.

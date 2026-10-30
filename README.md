@@ -16,7 +16,7 @@ A `dotnet new` template for an [AWS Lambda function](https://docs.aws.amazon.com
 
 It's one of five [Lean Mean Clean Apps](https://leanmeancleanapps.github.io/) templates that share the same Application and Infrastructure layers and differ only in how they present them. Same genes, different haircuts. See [Related templates](#related-templates).
 
-The full documentation, with guides, a function reference and the reasoning behind the design, lives at **[leanmeancleanapps.github.io/lambda](https://leanmeancleanapps.github.io/lambda/)**. This README is the short version for people who skim. We see you.
+The full documentation, with guides, a reference and the reasoning behind every opinion in here, lives at **[leanmeancleanapps.github.io/lambda](https://leanmeancleanapps.github.io/lambda/)**. This README is the short version for people who skim. We see you.
 
 ## Contents
 
@@ -126,9 +126,9 @@ All five templates share the same Application and Infrastructure layers, tests, 
 | Template | Presentation | Package |
 | --- | --- | --- |
 | [Clean Minimal API](https://github.com/stphnwlsh/CleanMinimalApi) | ASP.NET Core Minimal APIs | [CleanMinimalApi.Template](https://www.nuget.org/packages/CleanMinimalApi.Template) |
-| [Clean Web API](https://github.com/stphnwlsh/CleanWebApi) | ASP.NET Core controllers | [CleanWebApi.Template](https://www.nuget.org/packages/CleanWebApi.Template) |
-| [Clean GraphQL API](https://github.com/stphnwlsh/CleanGraphQLApi) | GraphQL with Hot Chocolate | [CleanGraphQLApi.Template](https://www.nuget.org/packages/CleanGraphQLApi.Template) |
 | [Clean Model Context Protocol](https://github.com/stphnwlsh/CleanModelContextProtocol) | Model Context Protocol server | [CleanModelContextProtocol.Template](https://www.nuget.org/packages/CleanModelContextProtocol.Template) |
+| [Clean GraphQL API](https://github.com/stphnwlsh/CleanGraphQLApi) | GraphQL with Hot Chocolate | [CleanGraphQLApi.Template](https://www.nuget.org/packages/CleanGraphQLApi.Template) |
+| [Clean Web API](https://github.com/stphnwlsh/CleanWebApi) | ASP.NET Core controllers | [CleanWebApi.Template](https://www.nuget.org/packages/CleanWebApi.Template) |
 | **Clean Lambda Function** (this repo) | AWS Lambda function | [CleanLambdaFunction.Template](https://www.nuget.org/packages/CleanLambdaFunction.Template) |
 
 ## Resources
@@ -157,8 +157,8 @@ Want your name in this table? Pull requests are the way in, so start with the [c
 
 ### Support the work
 
-If this template saves you time, please consider [sponsoring Stephen on GitHub](https://github.com/sponsors/stphnwlsh). It keeps all five templates current with each .NET release, and it keeps the coffee flowing, which is the real dependency here.
+If this template saves you time, please consider [sponsoring the work on GitHub](https://github.com/sponsors/stphnwlsh). It keeps all five templates current with each .NET release, and it keeps the coffee flowing, which is the real dependency here.
 
 ## License
 
-Released under the [MIT License](LICENSE.md). Take it, change it, ship it. Just don't blame me for your cold starts.
+Released under the [MIT License](LICENSE.md). Take it, change it, ship it. Just don't blame us for your cold starts.
